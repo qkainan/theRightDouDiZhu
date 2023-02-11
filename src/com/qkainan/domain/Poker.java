@@ -24,11 +24,13 @@ public class Poker {
             Collections.shuffle(arr);
         };
 
+
 //创建四个集合用于存储三个玩家的手牌以及底牌
         ArrayList<String> player1 = new ArrayList<>();
         ArrayList<String> player2 = new ArrayList<>();
         ArrayList<String> player3 = new ArrayList<>();
         ArrayList<String> dipai = new ArrayList<>();
+
 
 //发牌、拿牌、看牌
         public void getPorkCard () {
@@ -46,8 +48,10 @@ public class Poker {
                 }
             }
 
-            //将每个角色自己的牌按从小到大排序
-
+            //整理牌
+            Collections.sort(player1);
+            Collections.sort(player2);
+            Collections.sort(player3);
 
             //看牌
             System.out.print("玩家1的牌为：");
@@ -65,4 +69,8 @@ public class Poker {
             }
             System.out.println(" ");
         }
+
+    //叫地主
+
+
 }
