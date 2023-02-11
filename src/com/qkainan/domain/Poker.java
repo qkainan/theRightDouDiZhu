@@ -1,5 +1,7 @@
 package com.qkainan.domain;
 
+import java.util.ArrayList;
+
 public class Poker {
 //    * PockerCard 类
 //* 功能：扑克牌的核心类 包括创建角色、创建牌、显示牌、洗牌、比较牌、排序牌等
@@ -13,5 +15,11 @@ public class Poker {
 //* public void showPeopleCard() //显示两个角色自己获得的牌
 //* public void sortCard() //将每个角色自己的牌按从小到大排序
 //* public void comparePeopleCard() //比较角色的牌
+
+    ArrayList<String> array=new ArrayList<>();
+    String [] colors={"♥","♠","♦","♣"};
+    String[] number={"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+
+
 
 }
