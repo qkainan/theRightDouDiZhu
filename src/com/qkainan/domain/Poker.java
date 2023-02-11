@@ -13,5 +13,5 @@ public class Poker {
 //* public void showPeopleCard() //显示两个角色自己获得的牌
 //* public void sortCard() //将每个角色自己的牌按从小到大排序
 //* public void comparePeopleCard() //比较角色的牌
-*
+
 }
