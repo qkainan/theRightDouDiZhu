@@ -1,23 +1,68 @@
 package com.qkainan.domain;
 
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Poker {
-//    * PockerCard 类
-//* 功能：扑克牌的核心类 包括创建角色、创建牌、显示牌、洗牌、比较牌、排序牌等
+
 //* 属性：List cards 整幅扑克牌的集合 、 People[] peoples 角色
-//* 方法： public PockerCard() //无参构造函数： 创建牌的集合、创建两个角色对象
-//* public void initializeCard() //创建整幅扑克牌
-//* public void showCard() //显示单支牌的花色和点数
-//* public void refreshCard() //洗牌 从第一支牌开始从所有牌中随机取一只与之交换
-//* public void addPeopleInfo() //添加玩家的基本信息
-//* public void dealCard() //发牌 从开始分别给A B发牌 每人两支
-//* public void showPeopleCard() //显示两个角色自己获得的牌
-//* public void sortCard() //将每个角色自己的牌按从小到大排序
-//* public void comparePeopleCard() //比较角色的牌
+//初始化牌；创建整幅扑克牌
 
-    ArrayList<String> array=new ArrayList<>();
-    String [] colors={"♥","♠","♦","♣"};
-    String[] number={"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+        ArrayList<String> arr = new ArrayList<>();
+        public void initCard () {
+            String[] colors = {"♥", "♠", "♦", "♣"};
+            String[] number = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+            for (String c : colors) {
+                for (String n : number) {
+                    arr.add(c + n);
+                }
+            }
+            arr.add("小王");
+            arr.add("大王");
+            //打乱排序
+            Collections.shuffle(arr);
+        };
 
+//创建四个集合用于存储三个玩家的手牌以及底牌
+        ArrayList<String> player1 = new ArrayList<>();
+        ArrayList<String> player2 = new ArrayList<>();
+        ArrayList<String> player3 = new ArrayList<>();
+        ArrayList<String> dipai = new ArrayList<>();
+
+//发牌、拿牌、看牌
+        public void getPorkCard () {
+            //发牌
+            for (int i = 0; i < arr.size(); i++) {
+                String poker = arr.get(i);
+                if (i > arr.size() - 3) {
+                    dipai.add(poker);
+                } else if (i % 3 == 0) {
+                    player1.add(poker);
+                } else if (i % 3 == 1) {
+                    player2.add(poker);
+                } else if (i % 3 == 2) {
+                    player3.add(poker);
+                }
+            }
+
+            //将每个角色自己的牌按从小到大排序
+
+
+            //看牌
+            System.out.print("玩家1的牌为：");
+            seeCard(player1);
+            System.out.print("玩家2的牌为：");
+            seeCard(player2);
+            System.out.print("玩家3的牌为：");
+            seeCard(player3);
+            System.out.print("底牌为： ");
+            seeCard(dipai);
+        }
+        public static void seeCard (ArrayList < String > ar) {
+            for (String s : ar) {
+                System.out.print(s);
+            }
+            System.out.println(" ");
+        }
 }
