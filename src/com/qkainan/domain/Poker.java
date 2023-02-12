@@ -5,9 +5,8 @@ import java.util.Collections;
 
 public class Poker {
 
-//* 属性：List cards 整幅扑克牌的集合 、 People[] peoples 角色
+//属性：List cards 整幅扑克牌的集合 、 People[] peoples 角色
 //初始化牌；创建整幅扑克牌
-
     ArrayList<String> arr = new ArrayList<>();
 
     public void initCard() {
@@ -22,10 +21,7 @@ public class Poker {
         arr.add("大王");
         //打乱排序
         Collections.shuffle(arr);
-    }
-
-    ;
-
+    };
 
     //创建四个集合用于存储三个玩家的手牌以及底牌
     ArrayList<String> player1 = new ArrayList<>();
@@ -74,6 +70,6 @@ public class Poker {
     }
 }
 
-    //叫地主
+
 
 
