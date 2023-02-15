@@ -10,17 +10,18 @@ import java.util.function.UnaryOperator;
 import sun.misc.SharedSecrets;
 
 public class User {
-    int score;
-    String name;
-    ArrayList<String> player;
+    private int score;
+    private String name;
+    private ArrayList<String> arrayList;
+
 
     public User() {
     }
 
-    public User(int score, String name, ArrayList<String> player) {
+    public User(int score, String name, ArrayList<String> arrayList) {
         this.score = score;
         this.name = name;
-        this.player = player;
+        this.arrayList = arrayList;
     }
 
     /**
@@ -57,21 +58,21 @@ public class User {
 
     /**
      * 获取
-     * @return player
+     * @return arrayList
      */
-    public ArrayList<String> getPlayer() {
-        return player;
+    public ArrayList<String> getArrayList() {
+        return arrayList;
     }
 
     /**
      * 设置
-     * @param player
+     * @param arrayList
      */
-    public void setPlayer(ArrayList<String> player) {
-        this.player = player;
+    public void setArrayList(ArrayList<String> arrayList) {
+        this.arrayList = arrayList;
     }
 
     public String toString() {
-        return "User{score = " + score + ", name = " + name + ", player = " + player + "}";
+        return "User{score = " + score + ", name = " + name + ", arrayList = " + arrayList + "}";
     }
 }
