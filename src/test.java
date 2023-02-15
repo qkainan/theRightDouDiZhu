@@ -8,5 +8,7 @@ public class test {
         Poker p = new Poker();
         p.initCard();
         p.getPorkCard();
+        p.lookCard();
+
     }
 }
