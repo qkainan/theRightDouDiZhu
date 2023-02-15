@@ -6,9 +6,11 @@ import java.util.Collections;
 public class test {
     public static void main(String[] args) {
         Poker p = new Poker();
+
         p.initCard();
         p.getPorkCard();
         p.lookCard();
+        p.jiaoPai();
 
     }
 }

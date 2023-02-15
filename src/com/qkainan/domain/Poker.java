@@ -1,7 +1,6 @@
 package com.qkainan.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class Poker {
 
@@ -10,8 +9,9 @@ public class Poker {
     ArrayList<String> arr = new ArrayList<>();
 
     public void initCard() {
+
         String[] colors = {"♥", "♠", "♦", "♣"};
-        String[] number = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+        String[] number = { "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A","2"};
         for (String c : colors) {
             for (String n : number) {
                 arr.add(c + n);
@@ -23,15 +23,17 @@ public class Poker {
         Collections.shuffle(arr);
     };
 
-
+    int score01 = 0;
+    int score02 = 0;
+    int score03 = 0;
     ArrayList<String> player1 = new ArrayList<>();
     ArrayList<String> player2 = new ArrayList<>();
     ArrayList<String> player3 = new ArrayList<>();
     ArrayList<String> dipai = new ArrayList<>();
     //创建四个集合用于存储三个玩家的手牌以及底牌
-    User player01 = new User("player01",player1) ;
-    User player02 = new User("player02",player2) ;
-    User player03 = new User("player03",player2) ;
+    User player01 = new User(score01,"player01",player1) ;
+    User player02 = new User(score02,"player02",player2) ;
+    User player03 = new User(score03,"player03",player2) ;
 
 
 
@@ -52,6 +54,7 @@ public class Poker {
             }
         }
     }
+
 
     //给牌排序
     public void orderingCard(){
@@ -76,6 +79,43 @@ public class Poker {
         }
         System.out.println(" ");
     }
+
+    //抢地主
+    // 叫牌
+    //叫牌按出牌的顺序轮流进行，每人只能叫一次。叫牌时可以叫 “1 分 ” ， “2 分 ” ， “3 分 ” ， “ 不叫 ” 。
+    //后叫牌者只能叫比前面玩家高的分或者不叫。叫牌结束后所叫分值最大的玩家为地主；如果有玩家叫 “3 分 ” 则立即结束叫牌，该玩家为地主；
+    //如果都不叫，则重新发牌，重新叫牌。
+
+    //定义一个方法用于叫牌
+    public static void jiaoPai(){
+        int score = 0;
+
+        System.out.println("请输入" +" " + "1分" + " " + "2分" + " " +"3分" + " " +"不叫");
+
+        String one = "1分";
+        String two = "2分";
+        String three = "3分";
+        String no = "不叫";
+
+        Scanner in = new Scanner(System.in);
+        String str = in.toString();
+        if (str == one){
+            score++;
+        } else if (str == two) {
+            score = score + 2;
+        } else if (str == three) {
+            score = score + 3;
+        } else if (str == no) {
+            score = score + 0;
+        }
+    }
+
+    //抢地主
+    public void qiangDiZhu(){
+
+
+    }
+
 
 
 }
