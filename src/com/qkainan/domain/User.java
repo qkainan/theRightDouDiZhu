@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
@@ -12,16 +13,16 @@ import sun.misc.SharedSecrets;
 public class User {
     private int score;
     private String name;
-    private ArrayList<String> arrayList;
+    private List<String> list;
 
 
     public User() {
     }
 
-    public User(int score, String name, ArrayList<String> arrayList) {
+    public User(int score, String name, List<String> list) {
         this.score = score;
         this.name = name;
-        this.arrayList = arrayList;
+        this.list = list;
     }
 
     /**
@@ -58,21 +59,23 @@ public class User {
 
     /**
      * 获取
-     * @return arrayList
+     * @return list
      */
-    public ArrayList<String> getArrayList() {
-        return arrayList;
+    public List<String> getList() {
+        return list;
     }
 
     /**
      * 设置
-     * @param arrayList
+     * @param list
      */
-    public void setArrayList(ArrayList<String> arrayList) {
-        this.arrayList = arrayList;
+    public void setList(List<String> list) {
+        this.list = list;
     }
 
     public String toString() {
-        return "User{score = " + score + ", name = " + name + ", arrayList = " + arrayList + "}";
+        return "User{score = " + score + ", name = " + name + ", list = " + list + "}";
     }
+
+
 }

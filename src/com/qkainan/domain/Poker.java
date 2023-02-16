@@ -1,6 +1,7 @@
 package com.qkainan.domain;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Poker {
@@ -9,25 +10,32 @@ public class Poker {
     User player01 = new User() ;
     User player02 = new User() ;
     User player03 = new User() ;
+    User landOwner = new User();
 
     //初始化牌；创建整幅扑克牌
-    ArrayList<String> arr = new ArrayList<>();
+    List<String> arr = new ArrayList<>();
 
     //创建四个集合用于存储三个玩家的手牌以及底牌
-    ArrayList<String> player1 = new ArrayList<>();
-    ArrayList<String> player2 = new ArrayList<>();
-    ArrayList<String> player3 = new ArrayList<>();
+    List<String> player1 = new ArrayList<>();
+    List<String> player2 = new ArrayList<>();
+    List<String> player3 = new ArrayList<>();
+    List<String> landowner = new ArrayList<>();
 
-    ArrayList<String> dipai = new ArrayList<>();
+    List<String> dipai = new ArrayList<>();
+
 
     int score01 = 0;
     int score02 = 0;
     int score03 = 0;
-    public void initUser(){
 
-        player01.setArrayList(player1);
-        player02.setArrayList(player2);
-        player03.setArrayList(player3);
+    public void initUser(){
+        player01.setName("player01");
+        player02.setName("player02");
+        player03.setName("player03");
+
+        player01.setList(player1);
+        player02.setList(player2);
+        player03.setList(player3);
 
         player01.setScore(score01);
         player02.setScore(score02);
@@ -74,21 +82,13 @@ public class Poker {
     public void lookCard(){
         //看牌
         System.out.print("玩家1的牌为：");
-        seeCard(player01.getArrayList());
+        seeCard(player01.getList());
         System.out.print("玩家2的牌为：");
-        seeCard(player02.getArrayList());
+        seeCard(player02.getList());
         System.out.print("玩家3的牌为：");
-        seeCard(player03.getArrayList());
+        seeCard(player03.getList());
         System.out.print("底牌为： ");
         seeCard(dipai);
-    }
-
-    //定义一个方法用于看牌
-    public static void seeCard(ArrayList<String> ar) {
-        for (String s : ar) {
-            System.out.print(s);
-        }
-        System.out.println(" ");
     }
 
     //抢地主
@@ -98,21 +98,51 @@ public class Poker {
     //如果都不叫，则重新发牌，重新叫牌。
     //抢地主
     public User qiangDiZhu(){
-        //
+
         int[] sc = {score01,score02,score03};
         System.out.print("玩家1叫牌：");
         jiaoPai(score01);
-        if (score01 == 3){
-        }
+
         System.out.print("玩家2叫牌：");
         jiaoPai(score02);
-        if (score02 == 3){
-        }
+
         System.out.print("玩家3叫牌：");
         jiaoPai(score03);
-        if (score03 == 3){
+
+        //找出分最高的人
+        for (int i = 0; i < sc.length - 1; i++) {
+            for (int j = 0; j < sc.length - 1 - i; j++) {
+                if (sc[j] > sc[j + 1]){
+                    int temp = sc[j];
+                    sc[j] = sc[j + 1];
+                    sc[j + 1] = temp;
+                }
+            }
         }
-        return player03;
+        System.out.print("分数最高的是:" + sc[2]);
+
+
+        if (sc[2] == score01){
+            landOwner = player01;
+        } else if (sc[2] == score02) {
+            landOwner = player02;
+        } else if (sc[2] == score03) {
+            landOwner = player03;
+        }
+
+        //把底牌给地主
+        String[] dp = new String[3];
+        for (int i = 0; i < dipai.size(); i++) {
+            dp[i] = dipai.get(i);
+        }
+        for (int i = 0; i < dp.length; i++) {
+            landowner.add(dp[i]);
+        }
+        System.out.println("地主是：" + landOwner.getName());
+
+        System.out.print("地主的牌为：");
+        seeCard(landOwner.getList());
+        return landOwner;
     }
 
     //定义一个方法用于叫牌
@@ -142,6 +172,14 @@ public class Poker {
         }
         return score;
 
+    }
+
+    //定义一个方法用于看牌
+    public static void seeCard(List<String> l) {
+        for (String s : l) {
+            System.out.print(s);
+        }
+        System.out.println(" ");
     }
 
 }
