@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Poker {
 //1 、发牌。 一副牌 54 张，一人 17 张，留 3 张做底牌，在确定地主之前玩家不能看底牌。
-
+//初始化
     User player01 = new User() ;
     User player02 = new User() ;
     User player03 = new User() ;
@@ -97,14 +97,33 @@ public class Poker {
     //后叫牌者只能叫比前面玩家高的分或者不叫。叫牌结束后所叫分值最大的玩家为地主；如果有玩家叫 “3 分 ” 则立即结束叫牌，该玩家为地主；
     //如果都不叫，则重新发牌，重新叫牌。
     //抢地主
-    public void qiangDiZhu(){
-        //轮流叫牌
+    public User qiangDiZhu(){
+        //
+        int[] sc = {score01,score02,score03};
         System.out.print("玩家1叫牌：");
         jiaoPai(score01);
+        if (score01 == 3){
+            return player01;
+        }
         System.out.print("玩家2叫牌：");
         jiaoPai(score02);
+        if (score02 == 3){
+            return player02;
+        }
         System.out.print("玩家3叫牌：");
         jiaoPai(score03);
+        if (score03 == 3){
+            return player03;
+        }
+        for (int i = 0; i < sc.length - 1; i++) {
+            for (int j = 0; j < sc.length - 1; j++) {
+                if (sc[j] > sc.[j + 1]){
+                    int temp = sc.[j];
+                    sc.[j] = sc.[j + 1];
+                    sc.[j + 1] = temp;
+                }
+            }
+        }
     }
 
     //定义一个方法用于叫牌
