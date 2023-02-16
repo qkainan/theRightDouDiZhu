@@ -103,27 +103,16 @@ public class Poker {
         System.out.print("玩家1叫牌：");
         jiaoPai(score01);
         if (score01 == 3){
-            return player01;
         }
         System.out.print("玩家2叫牌：");
         jiaoPai(score02);
         if (score02 == 3){
-            return player02;
         }
         System.out.print("玩家3叫牌：");
         jiaoPai(score03);
         if (score03 == 3){
-            return player03;
         }
-        for (int i = 0; i < sc.length - 1; i++) {
-            for (int j = 0; j < sc.length - 1; j++) {
-                if (sc[j] > sc.[j + 1]){
-                    int temp = sc.[j];
-                    sc.[j] = sc.[j + 1];
-                    sc.[j + 1] = temp;
-                }
-            }
-        }
+        return player03;
     }
 
     //定义一个方法用于叫牌
