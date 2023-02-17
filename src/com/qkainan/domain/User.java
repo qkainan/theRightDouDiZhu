@@ -13,13 +13,12 @@ import sun.misc.SharedSecrets;
 public class User {
     private int score;
     private String name;
-    private List<String> list;
-
+    private List<Integer> list;
 
     public User() {
     }
 
-    public User(int score, String name, List<String> list) {
+    public User(int score, String name, List<Integer> list) {
         this.score = score;
         this.name = name;
         this.list = list;
@@ -61,7 +60,7 @@ public class User {
      * 获取
      * @return list
      */
-    public List<String> getList() {
+    public List<Integer> getList() {
         return list;
     }
 
@@ -69,13 +68,11 @@ public class User {
      * 设置
      * @param list
      */
-    public void setList(List<String> list) {
+    public void setList(List<Integer> list) {
         this.list = list;
     }
 
     public String toString() {
         return "User{score = " + score + ", name = " + name + ", list = " + list + "}";
     }
-
-
 }

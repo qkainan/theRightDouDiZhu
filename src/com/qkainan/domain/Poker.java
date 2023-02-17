@@ -13,15 +13,18 @@ public class Poker {
     User landOwner = new User();
 
     //初始化牌；创建整幅扑克牌
-    List<String> arr = new ArrayList<>();
+    //创建一个Map集合，存储牌的索引和组装好的牌
+    HashMap<Integer, String> pokerCard = new HashMap<>();
+    //创建一个ArrayList集合，存储牌的索引
+    ArrayList<Integer> pokerNumber = new ArrayList<>();
 
     //创建四个集合用于存储三个玩家的手牌以及底牌
-    List<String> player1 = new ArrayList<>();
-    List<String> player2 = new ArrayList<>();
-    List<String> player3 = new ArrayList<>();
-    List<String> landowner = new ArrayList<>();
+    List<Integer> player1 = new ArrayList<>();
+    List<Integer> player2 = new ArrayList<>();
+    List<Integer> player3 = new ArrayList<>();
+    List<Integer> landowner = new ArrayList<>();
 
-    List<String> dipai = new ArrayList<>();
+    List<Integer> diPai = new ArrayList<>();
 
 
     int score01 = 0;
@@ -43,52 +46,69 @@ public class Poker {
     }
 
     public void initCard() {
+        //准备牌
+        //定义两个数组存储花色和牌的顺序
+        String[] colors = {"♠", "♥", "♣", "♦"};
+        String[] numbers = {"2", "A", "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3"};
 
-        String[] colors = {"♥", "♠", "♦", "♣"};
-        String[] number = { "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A","2"};
-        for (String c : colors) {
-            for (String n : number) {
-                arr.add(c + n);
+        //先把大王和小王存储到集合中
+        int index = 0;
+        pokerCard.put(index, "大王");
+        pokerNumber.add(index);
+        index++;
+        pokerCard.put(index, "小王");
+        pokerNumber.add(index);
+        index++;
+        //循环嵌套遍历两个数组，花色和顺序，组装52张牌，存储到集合中
+        for (String number : numbers) {
+            for (String color : colors) {
+                pokerCard.put(index, color + number);
+                pokerNumber.add(index);
+                index++;
             }
         }
-        arr.add(" 小王");
-        arr.add(" 大王");
-        //打乱排序
-        Collections.shuffle(arr);
-    };
+        //洗牌
+        //使用Collections中的方法shuffle(List)方法,对poker的索引进行洗牌
+        Collections.shuffle(pokerNumber);
+    }
 
-    //发牌、拿牌
+
+    //发牌、拿牌、给牌排序
     public void getPorkCard() {
-        //发牌
-        for (int i = 0; i < arr.size(); i++) {
-            String poker = arr.get(i);
-            if (i > arr.size() - 4) {
-                dipai.add(poker);
+        //遍历索引ArrayList集合，获取每一张牌的索引
+        for (int i = 0; i < pokerNumber.size(); i++) {
+            Integer in = pokerNumber.get(i);
+            //分出三张底牌
+            if (i > pokerNumber.size() - 4) {
+                //给底牌发牌
+                diPai.add(in);
             } else if (i % 3 == 0) {
-                player1.add(poker);
+                //给玩家1发牌
+                player1.add(in);
             } else if (i % 3 == 1) {
-                player2.add(poker);
+                //给玩家2发牌
+                player2.add(in);
             } else if (i % 3 == 2) {
-                player3.add(poker);
+                //给玩家3发牌
+                player3.add(in);
             }
         }
+        //排序,使用Collections中的方法sort(List)，对玩家的牌进行排序
+        Collections.sort(player01.getList());
+        Collections.sort(player02.getList());
+        Collections.sort(player03.getList());
     }
 
-
-    //给牌排序
-    public void orderingCard(){
-
-    }
-    public void lookCard(){
+    public void lookCard() {
         //看牌
         System.out.print("玩家1的牌为：");
-        seeCard(player01.getList());
+        seeCard(pokerCard, player01.getList());
         System.out.print("玩家2的牌为：");
-        seeCard(player02.getList());
+        seeCard(pokerCard, player02.getList());
         System.out.print("玩家3的牌为：");
-        seeCard(player03.getList());
+        seeCard(pokerCard, player03.getList());
         System.out.print("底牌为： ");
-        seeCard(dipai);
+        seeCard(pokerCard, diPai);
     }
 
     //抢地主
@@ -122,7 +142,7 @@ public class Poker {
         System.out.print("分数最高的是:" + sc[2]);
 
 
-        if (sc[2] == score01){
+        if (sc[2] == score01) {
             landOwner = player01;
         } else if (sc[2] == score02) {
             landOwner = player02;
@@ -131,9 +151,9 @@ public class Poker {
         }
 
         //把底牌给地主
-        String[] dp = new String[3];
-        for (int i = 0; i < dipai.size(); i++) {
-            dp[i] = dipai.get(i);
+        Integer[] dp = new Integer[3];
+        for (int i = 0; i < diPai.size(); i++) {
+            dp[i] = diPai.get(i);
         }
         for (int i = 0; i < dp.length; i++) {
             landowner.add(dp[i]);
@@ -141,7 +161,7 @@ public class Poker {
         System.out.println("地主是：" + landOwner.getName());
 
         System.out.print("地主的牌为：");
-        seeCard(landOwner.getList());
+        seeCard(pokerCard, landOwner.getList());
         return landOwner;
     }
 
@@ -175,15 +195,14 @@ public class Poker {
     }
 
     //定义一个方法用于看牌
-    public static void seeCard(List<String> l) {
-        for (String s : l) {
-            System.out.print(s);
+    public static void seeCard(HashMap<Integer, String> poker, List<Integer> list) {
+        //遍历玩家或底牌集合，获取牌的索引
+        for(Integer key:list){
+            //通过牌的索引，通过Map集合get()方法找到牌
+            String value = poker.get(key);
+            //输出牌
+            System.out.print(value+" ");
         }
-        System.out.println(" ");
+        System.out.println();
     }
-
 }
-
-
-
-
