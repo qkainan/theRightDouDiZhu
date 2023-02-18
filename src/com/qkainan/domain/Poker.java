@@ -5,11 +5,11 @@ import java.util.stream.Collectors;
 
 
 public class Poker {
-//1 、发牌。 一副牌 54 张，一人 17 张，留 3 张做底牌，在确定地主之前玩家不能看底牌。
+    //1 、发牌。 一副牌 54 张，一人 17 张，留 3 张做底牌，在确定地主之前玩家不能看底牌。
 //初始化
-    User player01 = new User() ;
-    User player02 = new User() ;
-    User player03 = new User() ;
+    User player01 = new User();
+    User player02 = new User();
+    User player03 = new User();
     User landOwner = new User();
 
     //初始化牌；创建整幅扑克牌
@@ -17,6 +17,8 @@ public class Poker {
     HashMap<Integer, String> pokerCard = new HashMap<>();
     //创建一个ArrayList集合，存储牌的索引
     ArrayList<Integer> pokerNumber = new ArrayList<>();
+    //弃牌区
+    List<Integer> discardArea = new ArrayList<>();
 
     //创建四个集合用于存储三个玩家的手牌以及底牌
     List<Integer> player1 = new ArrayList<>();
@@ -30,8 +32,7 @@ public class Poker {
     int score02 = 0;
     int score03 = 0;
 
-
-    public void initUser(){
+    public void initUser() {
         player01.setName("player01");
         player02.setName("player02");
         player03.setName("player03");
@@ -74,7 +75,6 @@ public class Poker {
         Collections.shuffle(pokerNumber);
     }
 
-
     //发牌、拿牌、给牌排序
     public void getPorkCard() {
         //遍历索引ArrayList集合，获取每一张牌的索引
@@ -113,13 +113,9 @@ public class Poker {
         seeCard(pokerCard, diPai);
     }
 
-    //抢地主
-    // 叫牌
     //叫牌按出牌的顺序轮流进行，每人只能叫一次。叫牌时可以叫 “1 分 ” ， “2 分 ” ， “3 分 ” ， “ 不叫 ” 。
-    //后叫牌者只能叫比前面玩家高的分或者不叫。叫牌结束后所叫分值最大的玩家为地主；如果有玩家叫 “3 分 ” 则立即结束叫牌，该玩家为地主；
-    //如果都不叫，则重新发牌，重新叫牌。
     //抢地主
-    public User qiangDiZhu(){
+    public User qiangDiZhu() {
         System.out.print("玩家1叫牌：");
         score01 = jiaoPai(score01);
 
@@ -129,12 +125,12 @@ public class Poker {
         System.out.print("玩家3叫牌：");
         score03 = jiaoPai(score03);
 
-        int[] sc = {score01,score02,score03};
+        int[] sc = {score01, score02, score03};
 
         //找出分最高的人
         for (int i = 0; i < sc.length - 1; i++) {
             for (int j = 0; j < sc.length - 1 - i; j++) {
-                if (sc[j] > sc[j + 1]){
+                if (sc[j] > sc[j + 1]) {
                     int temp = sc[j];
                     sc[j] = sc[j + 1];
                     sc[j + 1] = temp;
@@ -164,10 +160,27 @@ public class Poker {
         return landOwner;
     }
 
+    public void playCard(){
+        if (landOwner == player01) {
+            goCard(landOwner, pokerCard, landOwner.getList());
+            goCard(player02, pokerCard, player02.getList());
+            goCard(player03, pokerCard, player02.getList());
+        } else if (landOwner == player02) {
+            goCard(landOwner, pokerCard, landOwner.getList());
+            goCard(player03, pokerCard, player03.getList());
+            goCard(player02, pokerCard, player02.getList());
+        } else if (landOwner == player03) {
+            goCard(landOwner, pokerCard, landOwner.getList());
+            goCard(player01, pokerCard, player01.getList());
+            goCard(player02, pokerCard, player02.getList());
+        }
+
+    }
+
     //定义一个方法用于叫牌
-    public static int jiaoPai(int score){
+    public static int jiaoPai(int score) {
         String str = new String();
-        System.out.println("请输入" +" " + "1分" + " " + "2分" + " " +"3分" + " " +"不叫");
+        System.out.println("请输入" + " " + "1分" + " " + "2分" + " " + "3分" + " " + "不叫");
 
         String one = "1分";
         String two = "2分";
@@ -177,16 +190,15 @@ public class Poker {
         Scanner in = new Scanner(System.in);
         str = in.nextLine();
 
-        if (str.equals(one)){
+        if (str.equals(one)) {
             score++;
         } else if (str.equals(two)) {
             score = score + 2;
-        }
-        else if (str.equals(three)) {
+        } else if (str.equals(three)) {
             score = score + 3;
         } else if (str.equals(no)) {
             score = score + 0;
-        }else {
+        } else {
             System.out.println("输入错误");
         }
         System.out.println("叫牌后分数为:" + score);
@@ -196,12 +208,51 @@ public class Poker {
     //定义一个方法用于看牌
     public static void seeCard(HashMap<Integer, String> poker, List<Integer> list) {
         //遍历玩家或底牌集合，获取牌的索引
-        for(Integer key:list){
+        for (Integer key : list) {
             //通过牌的索引，通过Map集合get()方法找到牌
             String value = poker.get(key);
             //输出牌
-            System.out.print(value+" ");
+            System.out.print(value + " ");
         }
         System.out.println();
     }
+
+    //定义一个方法用于出牌
+    public void goCard(User u , HashMap<Integer, String> poker, List<Integer> list) {
+
+        //出牌即将集合的索引植入弃牌区当中
+        //输入想出的牌
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+
+        //判断出牌者牌库中是否有该牌
+        //通过牌的索引，通过Map集合get()方法找到牌
+        while (true){
+            for (Integer key : list) {
+                //通过牌的索引，通过Map集合get()方法找到牌
+                String value = poker.get(key);
+                if (!value.equals(s)){
+                    System.out.println("该牌不存在于手牌中");
+                }
+            }
+            break;
+        }
+
+        //将出的牌置入弃牌区当中
+        for (Integer key : list) {
+            //通过牌的索引，通过Map集合get()方法找到牌
+            String value = poker.get(key);
+            for (int i = 0; i < list.size(); i++) {
+                if (value.equals(s)){
+                    discardArea.add(list.get(i));
+            }
+            }
+        }
+
+        //判断胜利
+        if (u.getList().size() == 0) {
+            System.out.println(u.getName() + "及其队伍获得胜利");
+        }
+    }
 }
+

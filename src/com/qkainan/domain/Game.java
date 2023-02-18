@@ -37,15 +37,6 @@ public class Game {
         List<String> a4 = new ArrayList<String>(); //炸弹
     }
 
-    //判断输赢
-    public boolean victory(User u1, User u2, User u3) {
-        int i = u1.getList().size();
-        int j = u2.getList().size();
-        int n = u3.getList().size();
-        switch (m){
-            case i:
-
-            }
-        }
-    }
 }
+
+

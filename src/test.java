@@ -13,7 +13,7 @@ public class test {
         p.getPorkCard();
         p.lookCard();
         p.qiangDiZhu();
-
+        p.playCard();
 
     }
 }
