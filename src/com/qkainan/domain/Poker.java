@@ -26,19 +26,21 @@ public class Poker {
 
     List<Integer> diPai = new ArrayList<>();
 
-
     int score01 = 0;
     int score02 = 0;
     int score03 = 0;
+
 
     public void initUser(){
         player01.setName("player01");
         player02.setName("player02");
         player03.setName("player03");
+        landOwner.setName("landOwner");
 
         player01.setList(player1);
         player02.setList(player2);
         player03.setList(player3);
+        landOwner.setList(landowner);
 
         player01.setScore(score01);
         player02.setScore(score02);
@@ -155,9 +157,7 @@ public class Poker {
         for (int i = 0; i < diPai.size(); i++) {
             dp[i] = diPai.get(i);
         }
-        for (int i = 0; i < dp.length; i++) {
-            landowner.add(dp[i]);
-        }
+        Collections.addAll(landowner, dp);
         System.out.println("地主是：" + landOwner.getName());
 
         System.out.print("地主的牌为：");
@@ -190,8 +190,8 @@ public class Poker {
         }else {
             System.out.println("输入错误");
         }
+        System.out.println("叫牌后分数为:" + score);
         return score;
-
     }
 
     //定义一个方法用于看牌
