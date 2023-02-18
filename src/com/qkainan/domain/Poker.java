@@ -218,7 +218,7 @@ public class Poker {
     }
 
     //定义一个方法用于出牌
-    public void goCard(User u , HashMap<Integer, String> poker, List<Integer> list) {
+    public void goCard(User u, HashMap<Integer, String> poker, List<Integer> list) {
 
         //出牌即将集合的索引植入弃牌区当中
         //输入想出的牌
@@ -227,15 +227,23 @@ public class Poker {
 
         //判断出牌者牌库中是否有该牌
         //通过牌的索引，通过Map集合get()方法找到牌
-        while (true){
-            for (Integer key : list) {
-                //通过牌的索引，通过Map集合get()方法找到牌
-                String value = poker.get(key);
-                if (!value.equals(s)){
-                    System.out.println("该牌不存在于手牌中");
+        //判断牌是否存在
+        for (Integer key : list) {
+            //通过牌的索引，通过Map集合get()方法找到牌
+            String value = poker.get(key);
+            try {
+                if (value.equals(s)) {
+                    System.out.println(u.getName() + "出牌了" + value);
+                } else {
+                    System.out.println("你的手牌中没有" + s);
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("输入有误，请重新输入");
             }
-            break;
+        }
+        if (s.equals(" ")) {
+            System.out.println(u.getName() + "不出牌，过");
+            return;
         }
 
         //将出的牌置入弃牌区当中
@@ -243,9 +251,9 @@ public class Poker {
             //通过牌的索引，通过Map集合get()方法找到牌
             String value = poker.get(key);
             for (int i = 0; i < list.size(); i++) {
-                if (value.equals(s)){
+                if (value.equals(s)) {
                     discardArea.add(list.get(i));
-            }
+                }
             }
         }
 
@@ -255,4 +263,5 @@ public class Poker {
         }
     }
 }
+
 
