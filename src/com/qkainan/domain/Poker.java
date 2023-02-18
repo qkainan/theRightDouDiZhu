@@ -120,16 +120,16 @@ public class Poker {
     //如果都不叫，则重新发牌，重新叫牌。
     //抢地主
     public User qiangDiZhu(){
-
-        int[] sc = {score01,score02,score03};
         System.out.print("玩家1叫牌：");
-        jiaoPai(score01);
+        score01 = jiaoPai(score01);
 
         System.out.print("玩家2叫牌：");
-        jiaoPai(score02);
+        score02 = jiaoPai(score02);
 
         System.out.print("玩家3叫牌：");
-        jiaoPai(score03);
+        score03 = jiaoPai(score03);
+
+        int[] sc = {score01,score02,score03};
 
         //找出分最高的人
         for (int i = 0; i < sc.length - 1; i++) {
@@ -142,7 +142,6 @@ public class Poker {
             }
         }
         System.out.print("分数最高的是:" + sc[2]);
-
 
         if (sc[2] == score01) {
             landOwner = player01;
@@ -157,7 +156,7 @@ public class Poker {
         for (int i = 0; i < diPai.size(); i++) {
             dp[i] = diPai.get(i);
         }
-        Collections.addAll(landowner, dp);
+        Collections.addAll(landOwner.getList(), dp);
         System.out.println("地主是：" + landOwner.getName());
 
         System.out.print("地主的牌为：");
