@@ -70,10 +70,13 @@ public class  Poker {
                 index++;
             }
         }
-        //洗牌
-        //使用Collections中的方法shuffle(List)方法,对poker的索引进行洗牌
-        Collections.shuffle(pokerNumber);
         return pokerCard;
+    }
+
+    //定义一个方法用于洗牌
+    //使用Collections中的方法shuffle(List)方法,对poker的索引进行洗牌
+    public void shuffleCard(){
+        Collections.shuffle(pokerNumber);
     }
 
     //发牌、拿牌、给牌排序

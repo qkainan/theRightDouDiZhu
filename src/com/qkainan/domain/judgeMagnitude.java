@@ -2,21 +2,20 @@ package com.qkainan.domain;
 
 public class judgeMagnitude {
     public enum CardMagnitude {
-        cW,//王
-        c2,//2
-        cA,//A。
-        cK,//K
-        cQ,//Q
-        cJ,//J
-        c10,//10
-        c9,//9
-        c8,//8
-        c7,//7
-        c6,//6
-        c5,//5.
-        c4,//4
-        c3,// 3
-        c0,//不出牌
-
+        cm0,//不出牌
+        cm3,//3
+        cm4,//4
+        cm5,//5
+        cm6,//6
+        cm7,//7
+        cm8,//8
+        cm9,//9
+        cm10,//10
+        cmJ,//J
+        cmQ,//Q
+        cmK,//K
+        cmA,//A
+        cm2,//2
+        cmW,//王
     }
 }
