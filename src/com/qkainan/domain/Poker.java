@@ -4,8 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class Poker {
-    //1 、发牌。 一副牌 54 张，一人 17 张，留 3 张做底牌，在确定地主之前玩家不能看底牌。
+public class  Poker {
+//发牌。 一副牌 54 张，一人 17 张，留 3 张做底牌，在确定地主之前玩家不能看底牌。
 //初始化
     User player01 = new User();
     User player02 = new User();
@@ -48,7 +48,7 @@ public class Poker {
         player03.setScore(score03);
     }
 
-    public void initCard() {
+    public HashMap initCard() {
         //准备牌
         //定义两个数组存储花色和牌的顺序
         String[] colors = {"♠", "♥", "♣", "♦"};
@@ -73,6 +73,7 @@ public class Poker {
         //洗牌
         //使用Collections中的方法shuffle(List)方法,对poker的索引进行洗牌
         Collections.shuffle(pokerNumber);
+        return pokerCard;
     }
 
     //发牌、拿牌、给牌排序
@@ -234,8 +235,6 @@ public class Poker {
             try {
                 if (value.equals(s)) {
                     System.out.println(u.getName() + "出牌了" + value);
-                } else {
-                    System.out.println("你的手牌中没有" + s);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("输入有误，请重新输入");
