@@ -13,14 +13,6 @@ public class test {
         //定义一个集合用于存储每张牌的分值
         List sc = new ArrayList();
 
-        p.initUser();
-        p.initCard();
-        g.groupIndex(sc);
-        p.shuffleCard();
-        p.getPorkCard();
-        p.lookCard();
-        p.qiangDiZhu();
-        p.playCard();
 
 
     }
