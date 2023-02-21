@@ -2,82 +2,13 @@ package com.qkainan.domain;
 import java.util.*;
 
 public class Game {
-    Poker pk = new Poker();
-    pk.initCard();
+    //初始化
+    Poker poker = new Poker();
 
-    //定义一个方法将卡牌的索引分组
-    public int groupIndex(List<Integer> group){
-        Collection<Integer> value = hm.values();
-        //将所有卡牌的索引植入集合
-        if(value.hashCode() == 0 || value.hashCode() == 1){
-            group.add(judgeMagnitude.CardMagnitude.cmW.ordinal());
-            return judgeMagnitude.CardMagnitude.cmW.ordinal();
-        }
-        if(value.hashCode() > 1 && value.hashCode() < 6){
-            group.add(judgeMagnitude.CardMagnitude.cm2.ordinal());
-            return judgeMagnitude.CardMagnitude.cm2.ordinal();
-        }
-        if(value.hashCode() > 5 && value.hashCode() < 10){
-            group.add(judgeMagnitude.CardMagnitude.cmA.ordinal());
-            return judgeMagnitude.CardMagnitude.cmA.ordinal();
-        }
-        if(value.hashCode() > 9 && value.hashCode() < 14){
-            group.add(judgeMagnitude.CardMagnitude.cmK.ordinal());
-            return judgeMagnitude.CardMagnitude.cmK.ordinal();
-        }
-        if(value.hashCode() > 13 && value.hashCode() < 18){
-            group.add(judgeMagnitude.CardMagnitude.cmQ.ordinal());
-            return judgeMagnitude.CardMagnitude.cmQ.ordinal();
-        }
-        if(value.hashCode() > 17 && value.hashCode() < 23){
-            group.add(judgeMagnitude.CardMagnitude.cmJ.ordinal());
-            return judgeMagnitude.CardMagnitude.cmJ.ordinal();
-        }
-        if(value.hashCode() > 22 && value.hashCode() < 27){
-            group.add(judgeMagnitude.CardMagnitude.cm10.ordinal());
-            return judgeMagnitude.CardMagnitude.cm10.ordinal();
-        }
-        if(value.hashCode() > 26 && value.hashCode() < 31){
-            group.add(judgeMagnitude.CardMagnitude.cm9.ordinal());
-            return judgeMagnitude.CardMagnitude.cm9.ordinal();
-        }
-        if(value.hashCode() > 30 && value.hashCode() < 35){
-            group.add(judgeMagnitude.CardMagnitude.cm8.ordinal());
-            return judgeMagnitude.CardMagnitude.cm8.ordinal();
-        }
-        if(value.hashCode() > 34 && value.hashCode() < 39){
-            group.add(judgeMagnitude.CardMagnitude.cm7.ordinal());
-            return judgeMagnitude.CardMagnitude.cm7.ordinal();
-        }
-        if(value.hashCode() > 38 && value.hashCode() < 43){
-            group.add(judgeMagnitude.CardMagnitude.cm6.ordinal());
-            return judgeMagnitude.CardMagnitude.cm6.ordinal();
-        }
-        if(value.hashCode() > 42 && value.hashCode() < 47){
-            group.add(judgeMagnitude.CardMagnitude.cm5.ordinal());
-            return judgeMagnitude.CardMagnitude.cm5.ordinal();
-        }
-        if(value.hashCode() > 46 && value.hashCode() < 51){
-            group.add(judgeMagnitude.CardMagnitude.cm4.ordinal());
-            return judgeMagnitude.CardMagnitude.cm4.ordinal();
-        }
-        if(value.hashCode() > 50 && value.hashCode() < 54){
-            group.add(judgeMagnitude.CardMagnitude.cm3.ordinal());
-            return judgeMagnitude.CardMagnitude.cm3.ordinal();
-        }else {
-            group.add(judgeMagnitude.CardMagnitude.cm0.ordinal());
-            return judgeMagnitude.CardMagnitude.cm0.ordinal();
-        }
-    }
-
-
-    //发牌。 一副牌 54 张，一人 17 张，留 3 张做底牌，在确定地主之前玩家不能看底牌。
-//初始化
     User player01 = new User();
     User player02 = new User();
     User player03 = new User();
     User landOwner = new User();
-
 
     //弃牌区
     List<Integer> discardArea = new ArrayList<>();
@@ -93,6 +24,60 @@ public class Game {
     int score01 = 0;
     int score02 = 0;
     int score03 = 0;
+
+    //用于存储牌的大小
+    Collection<Integer> value = poker.getPokerCard().keySet();
+
+    //定义一个方法将卡牌的索引分组
+    public int groupIndex(List<Integer> group) {
+        for (int i = 0; i < poker.getGetPokerNumber().size(); i++) {
+            //将所有卡牌的索引植入集合
+            if (poker.getGetPokerNumber().get(i) == 0 || poker.getGetPokerNumber().indexOf(i) == 1) {
+                group.add(judgeMagnitude.CardMagnitude.cmW.ordinal());
+                return judgeMagnitude.CardMagnitude.cmW.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 1 && poker.getGetPokerNumber().get(i) < 6) {
+                group.add(judgeMagnitude.CardMagnitude.cm2.ordinal());
+                return judgeMagnitude.CardMagnitude.cm2.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 5 && poker.getGetPokerNumber().get(i) < 10) {
+                group.add(judgeMagnitude.CardMagnitude.cmA.ordinal());
+                return judgeMagnitude.CardMagnitude.cmA.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 9 && poker.getGetPokerNumber().get(i) < 14) {
+                group.add(judgeMagnitude.CardMagnitude.cmK.ordinal());
+                return judgeMagnitude.CardMagnitude.cmK.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 13 && poker.getGetPokerNumber().get(i) < 18) {
+                group.add(judgeMagnitude.CardMagnitude.cmQ.ordinal());
+                return judgeMagnitude.CardMagnitude.cmQ.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 17 && poker.getGetPokerNumber().get(i) < 23) {
+                group.add(judgeMagnitude.CardMagnitude.cmJ.ordinal());
+                return judgeMagnitude.CardMagnitude.cmJ.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 22 && poker.getGetPokerNumber().get(i) < 27) {
+                group.add(judgeMagnitude.CardMagnitude.cm10.ordinal());
+                return judgeMagnitude.CardMagnitude.cm10.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 26 && poker.getGetPokerNumber().get(i) < 31) {
+                group.add(judgeMagnitude.CardMagnitude.cm9.ordinal());
+                return judgeMagnitude.CardMagnitude.cm9.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 30 && poker.getGetPokerNumber().get(i) < 35) {
+                group.add(judgeMagnitude.CardMagnitude.cm8.ordinal());
+                return judgeMagnitude.CardMagnitude.cm8.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 34 && poker.getGetPokerNumber().get(i) < 39) {
+                group.add(judgeMagnitude.CardMagnitude.cm7.ordinal());
+                return judgeMagnitude.CardMagnitude.cm7.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 38 && poker.getGetPokerNumber().get(i) < 43) {
+                group.add(judgeMagnitude.CardMagnitude.cm6.ordinal());
+                return judgeMagnitude.CardMagnitude.cm6.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 42 && poker.getGetPokerNumber().get(i) < 47) {
+                group.add(judgeMagnitude.CardMagnitude.cm5.ordinal());
+                return judgeMagnitude.CardMagnitude.cm5.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 46 && poker.getGetPokerNumber().get(i) < 51) {
+                group.add(judgeMagnitude.CardMagnitude.cm4.ordinal());
+                return judgeMagnitude.CardMagnitude.cm4.ordinal();
+            } else if (poker.getGetPokerNumber().get(i) > 50 && poker.getGetPokerNumber().get(i) < 54) {
+                group.add(judgeMagnitude.CardMagnitude.cm3.ordinal());
+                return judgeMagnitude.CardMagnitude.cm3.ordinal();
+            }
+        }
+        return -1;
+    }
 
     public void initUser() {
         player01.setName("player01");
@@ -113,16 +98,16 @@ public class Game {
     //定义一个方法用于洗牌
     //使用Collections中的方法shuffle(List)方法,对poker的索引进行洗牌
     public void shuffleCard(){
-        Collections.shuffle(pk.pokerNumber);
+        Collections.shuffle(poker.getGetPokerNumber());
     }
 
-    //发牌、拿牌、给牌排序
+    //发牌,一人 17 张，留 3 张做底牌，在确定地主之前玩家不能看底牌。
     public void getPorkCard() {
         //遍历索引ArrayList集合，获取每一张牌的索引
-        for (int i = 0; i < pk.pokerNumber.size(); i++) {
-            Integer in = pk.pokerNumber.get(i);
+        for (int i = 0; i < poker.getGetPokerNumber().size(); i++) {
+            Integer in = poker.getGetPokerNumber().get(i);
             //分出三张底牌
-            if (i > pk.pokerNumber.size() - 4) {
+            if (i > poker.getGetPokerNumber().size() - 4) {
                 //给底牌发牌
                 diPai.add(in);
             } else if (i % 3 == 0) {
@@ -145,13 +130,13 @@ public class Game {
     public void lookCard() {
         //看牌
         System.out.print("玩家1的牌为：");
-        seeCard(pk.pokerCard, player01.getList());
+        seeCard(poker.getPokerCard(), player01.getList());
         System.out.print("玩家2的牌为：");
-        seeCard(pk.pokerCard, player02.getList());
+        seeCard(poker.getPokerCard(), player02.getList());
         System.out.print("玩家3的牌为：");
-        seeCard(pk.pokerCard, player03.getList());
+        seeCard(poker.getPokerCard(), player03.getList());
         System.out.print("底牌为： ");
-        seeCard(pk.pokerCard, diPai);
+        seeCard(poker.getPokerCard(), diPai);
     }
 
     //叫牌按出牌的顺序轮流进行，每人只能叫一次。叫牌时可以叫 “1 分 ” ， “2 分 ” ， “3 分 ” ， “ 不叫 ” 。
@@ -197,26 +182,26 @@ public class Game {
         System.out.println("地主是：" + landOwner.getName());
 
         System.out.print("地主的牌为：");
-        seeCard(pk.pokerCard, landOwner.getList());
+        seeCard(poker.getPokerCard() , landOwner.getList());
         return landOwner;
     }
 
-    public void playCard(){
-        if (landOwner == player01) {
-            goCard(landOwner, pk.pokerCard, landOwner.getList());
-            goCard(player02, pk.pokerCard, player02.getList());
-            goCard(player03, pk.pokerCard, player02.getList());
-        } else if (landOwner == player02) {
-            goCard(landOwner, pk.pokerCard, landOwner.getList());
-            goCard(player03, pk.pokerCard, player03.getList());
-            goCard(player02, pk.pokerCard, player02.getList());
-        } else if (landOwner == player03) {
-            goCard(landOwner, pk.pokerCard, landOwner.getList());
-            goCard(player01, pk.pokerCard, player01.getList());
-            goCard(player02, pk.pokerCard, player02.getList());
-        }
-
-    }
+//    public void playCard(){
+//        if (landOwner == player01) {
+//            goCard(landOwner, poker.getPokerCard(), landOwner.getList());
+//            goCard(player02, poker.getPokerCard(), player02.getList());
+//            goCard(player03, poker.getPokerCard(), player02.getList());
+//        } else if (landOwner == player02) {
+//            goCard(landOwner, poker.getPokerCard(), landOwner.getList());
+//            goCard(player03, poker.getPokerCard(), player03.getList());
+//            goCard(player02, poker.getPokerCard(), player02.getList());
+//        } else if (landOwner == player03) {
+//            goCard(landOwner, poker.getPokerCard(), landOwner.getList());
+//            goCard(player01, poker.getPokerCard(), player01.getList());
+//            goCard(player02, poker.getPokerCard(), player02.getList());
+//        }
+//
+//    }
 
     //定义一个方法用于叫牌
     public static int jiaoPai(int score) {
@@ -259,9 +244,8 @@ public class Game {
     }
 
     //定义一个方法用于出牌
-    public void goCard(User u, HashMap<Integer, String> poker, List<Integer> list) {
+    public void goCard(User u, Poker p) {
 
-        //出牌即将集合的索引植入弃牌区当中
         //输入想出的牌
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
@@ -269,9 +253,9 @@ public class Game {
         //判断出牌者牌库中是否有该牌
         //通过牌的索引，通过Map集合get()方法找到牌
         //判断牌是否存在
-        for (Integer key : list) {
+        for (Integer key : p.getGetPokerNumber()) {
             //通过牌的索引，通过Map集合get()方法找到牌
-            String value = poker.get(key);
+            String value = p.getPokerCard(key);
             try {
                 if (value.equals(s)) {
                     System.out.println(u.getName() + "出牌了" + value);
@@ -286,12 +270,12 @@ public class Game {
         }
 
         //将出的牌置入弃牌区当中
-        for (Integer key : list) {
+        for (Integer key : p.getGetPokerNumber()) {
             //通过牌的索引，通过Map集合get()方法找到牌
-            String value = poker.get(key);
-            for (int i = 0; i < list.size(); i++) {
+            String value = poker.getPokerCard(key);
+            for (int i = 0; i < p.getGetPokerNumber().size(); i++) {
                 if (value.equals(s)) {
-                    discardArea.add(list.get(i));
+                    discardArea.add(p.getGetPokerNumber().get(i));
                 }
             }
         }
@@ -301,6 +285,7 @@ public class Game {
             System.out.println(u.getName() + "及其队伍获得胜利");
         }
     }
+
 }
 
 
