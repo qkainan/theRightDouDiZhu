@@ -1,5 +1,6 @@
 package com.qkainan.domain;
 import java.util.*;
+import java.util.List;
 
 public class Game {
     //初始化
@@ -26,58 +27,9 @@ public class Game {
     int score03 = 0;
 
     //用于存储牌的大小
-    Collection<Integer> value = poker.getPokerCard().keySet();
+    List<Integer> magnitude = new ArrayList<>();
 
-    //定义一个方法将卡牌的索引分组
-    public int groupIndex(List<Integer> group) {
-        for (int i = 0; i < poker.getGetPokerNumber().size(); i++) {
-            //将所有卡牌的索引植入集合
-            if (poker.getGetPokerNumber().get(i) == 0 || poker.getGetPokerNumber().indexOf(i) == 1) {
-                group.add(judgeMagnitude.CardMagnitude.cmW.ordinal());
-                return judgeMagnitude.CardMagnitude.cmW.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 1 && poker.getGetPokerNumber().get(i) < 6) {
-                group.add(judgeMagnitude.CardMagnitude.cm2.ordinal());
-                return judgeMagnitude.CardMagnitude.cm2.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 5 && poker.getGetPokerNumber().get(i) < 10) {
-                group.add(judgeMagnitude.CardMagnitude.cmA.ordinal());
-                return judgeMagnitude.CardMagnitude.cmA.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 9 && poker.getGetPokerNumber().get(i) < 14) {
-                group.add(judgeMagnitude.CardMagnitude.cmK.ordinal());
-                return judgeMagnitude.CardMagnitude.cmK.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 13 && poker.getGetPokerNumber().get(i) < 18) {
-                group.add(judgeMagnitude.CardMagnitude.cmQ.ordinal());
-                return judgeMagnitude.CardMagnitude.cmQ.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 17 && poker.getGetPokerNumber().get(i) < 23) {
-                group.add(judgeMagnitude.CardMagnitude.cmJ.ordinal());
-                return judgeMagnitude.CardMagnitude.cmJ.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 22 && poker.getGetPokerNumber().get(i) < 27) {
-                group.add(judgeMagnitude.CardMagnitude.cm10.ordinal());
-                return judgeMagnitude.CardMagnitude.cm10.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 26 && poker.getGetPokerNumber().get(i) < 31) {
-                group.add(judgeMagnitude.CardMagnitude.cm9.ordinal());
-                return judgeMagnitude.CardMagnitude.cm9.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 30 && poker.getGetPokerNumber().get(i) < 35) {
-                group.add(judgeMagnitude.CardMagnitude.cm8.ordinal());
-                return judgeMagnitude.CardMagnitude.cm8.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 34 && poker.getGetPokerNumber().get(i) < 39) {
-                group.add(judgeMagnitude.CardMagnitude.cm7.ordinal());
-                return judgeMagnitude.CardMagnitude.cm7.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 38 && poker.getGetPokerNumber().get(i) < 43) {
-                group.add(judgeMagnitude.CardMagnitude.cm6.ordinal());
-                return judgeMagnitude.CardMagnitude.cm6.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 42 && poker.getGetPokerNumber().get(i) < 47) {
-                group.add(judgeMagnitude.CardMagnitude.cm5.ordinal());
-                return judgeMagnitude.CardMagnitude.cm5.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 46 && poker.getGetPokerNumber().get(i) < 51) {
-                group.add(judgeMagnitude.CardMagnitude.cm4.ordinal());
-                return judgeMagnitude.CardMagnitude.cm4.ordinal();
-            } else if (poker.getGetPokerNumber().get(i) > 50 && poker.getGetPokerNumber().get(i) < 54) {
-                group.add(judgeMagnitude.CardMagnitude.cm3.ordinal());
-                return judgeMagnitude.CardMagnitude.cm3.ordinal();
-            }
-        }
-        return -1;
-    }
+
 
     public void initUser() {
         player01.setName("player01");
@@ -98,16 +50,16 @@ public class Game {
     //定义一个方法用于洗牌
     //使用Collections中的方法shuffle(List)方法,对poker的索引进行洗牌
     public void shuffleCard(){
-        Collections.shuffle(poker.getGetPokerNumber());
+        Collections.shuffle(poker.getPokerNumber());
     }
 
     //发牌,一人 17 张，留 3 张做底牌，在确定地主之前玩家不能看底牌。
     public void getPorkCard() {
         //遍历索引ArrayList集合，获取每一张牌的索引
-        for (int i = 0; i < poker.getGetPokerNumber().size(); i++) {
-            Integer in = poker.getGetPokerNumber().get(i);
+        for (int i = 0; i < poker.getPokerNumber().size(); i++) {
+            Integer in = poker.getPokerNumber().get(i);
             //分出三张底牌
-            if (i > poker.getGetPokerNumber().size() - 4) {
+            if (i > poker.getPokerNumber().size() - 4) {
                 //给底牌发牌
                 diPai.add(in);
             } else if (i % 3 == 0) {
@@ -253,9 +205,9 @@ public class Game {
         //判断出牌者牌库中是否有该牌
         //通过牌的索引，通过Map集合get()方法找到牌
         //判断牌是否存在
-        for (Integer key : p.getGetPokerNumber()) {
+        for (Integer key : p.getPokerNumber()) {
             //通过牌的索引，通过Map集合get()方法找到牌
-            String value = p.getPokerCard(key);
+            String value = p.getPokerCard().get(key);
             try {
                 if (value.equals(s)) {
                     System.out.println(u.getName() + "出牌了" + value);
@@ -270,12 +222,12 @@ public class Game {
         }
 
         //将出的牌置入弃牌区当中
-        for (Integer key : p.getGetPokerNumber()) {
+        for (Integer key : p.getPokerNumber()) {
             //通过牌的索引，通过Map集合get()方法找到牌
-            String value = poker.getPokerCard(key);
-            for (int i = 0; i < p.getGetPokerNumber().size(); i++) {
+            String value = p.getPokerCard().get(key);
+            for (int i = 0; i < p.getPokerNumber().size(); i++) {
                 if (value.equals(s)) {
-                    discardArea.add(p.getGetPokerNumber().get(i));
+                    discardArea.add(p.getPokerNumber().get(i));
                 }
             }
         }

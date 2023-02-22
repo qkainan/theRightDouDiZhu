@@ -1,14 +1,7 @@
 package com.qkainan.domain;
 
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-
-
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import sun.misc.SharedSecrets;
+
 
 public class User {
     private int score;
