@@ -211,6 +211,41 @@ public class Game {
         boolean isValid = false;
         int cardIndex = -1;
 
+        while (!handCards.isEmpty()) { // 当手牌不为空时，循环进行出牌
+            System.out.println("当前手牌为：" + handCards);
+            isOut = false; // 重置标记
+            List<Integer> outCards = new ArrayList<Integer>(); // 记录当前出的牌
+            while (!isOut) { // 玩家一个一个输入牌，直到输入“出牌”
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("请输入一张牌（输入“出牌”结束）：");
+                String input = scanner.nextLine();
+                if (input.equals("出牌")) {
+                    isOut = true;
+                    break;
+                }
+                Integer index = cardMap.get(input);
+                if (index != null) {
+                    outCards.add(index);
+                } else {
+                    System.out.println("无效牌，请重新输入。");
+                }
+            }
+            if (!outCards.isEmpty()) { // 玩家出了牌
+                if (isValid(outCards)) { // 判断牌型是否合法
+                    for (Integer card : outCards) {
+                        handCards.remove(card); // 从手牌中删除出的牌
+                    }
+                    System.out.println("出牌成功。");
+                } else {
+                    System.out.println("出牌不合法，请重新出牌。");
+                }
+            } else { // 玩家选择不出牌
+                System.out.println("玩家选择不出牌。");
+            }
+        }
+        System.out.println("游戏结束。");
+    }
+
     }
 }
 
