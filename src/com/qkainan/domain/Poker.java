@@ -9,7 +9,7 @@ public class  Poker {
     //创建一个ArrayList集合，存储牌的索引
     private ArrayList<Integer> pokerNumber = new ArrayList<>();
     //创建一个List集合，用于存储牌的标签
-    List group = new ArrayList<CardMagnitude>();
+    private List group = new ArrayList<CardMagnitude>();
 
     public Poker() {
     }

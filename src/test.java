@@ -1,8 +1,6 @@
 import com.qkainan.domain.Game;
 import com.qkainan.domain.Poker;
 
-import java.util.*;
-
 public class test {
     public static void main(String[] args) {
 
@@ -11,7 +9,7 @@ public class test {
 
         p.creatCardBase();
         g.initUser();
-        g.getPorkCard();
+        g.dealPorkCard();
         g.shuffleCard();
         g.lookCard();
         g.qiangDiZhu();
