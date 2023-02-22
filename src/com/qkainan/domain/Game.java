@@ -207,46 +207,11 @@ public class Game {
     //6.循环进行，直到玩家出完所有手牌或选择不出牌。
 
     public void goCard(User u, Poker p) {
-        //输入想出的牌
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
+        Scanner scanner = new Scanner(System.in);
+        boolean isValid = false;
+        int cardIndex = -1;
 
-        //判断出牌者牌库中是否有该牌
-        //通过牌的索引，通过Map集合get()方法找到牌
-        //判断牌是否存在
-        for (Integer key : p.getPokerNumber()) {
-            //通过牌的索引，通过Map集合get()方法找到牌
-            String value = p.getPokerCard().get(key);
-            try {
-                if (value.equals(s)) {
-                    System.out.println(u.getName() + "出牌了" + value);
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("输入有误，请重新输入");
-            }
-        }
-        if (s.equals(" ")) {
-            System.out.println(u.getName() + "不出牌，过");
-            return;
-        }
-
-        //将出的牌置入弃牌区当中
-        for (Integer key : p.getPokerNumber()) {
-            //通过牌的索引，通过Map集合get()方法找到牌
-            String value = p.getPokerCard().get(key);
-            for (int i = 0; i < p.getPokerNumber().size(); i++) {
-                if (value.equals(s)) {
-                    discardArea.add(p.getPokerNumber().get(i));
-                }
-            }
-        }
-
-        //判断胜利
-        if (u.getList().size() == 0) {
-            System.out.println(u.getName() + "及其队伍获得胜利");
-        }
     }
-
 }
 
 
