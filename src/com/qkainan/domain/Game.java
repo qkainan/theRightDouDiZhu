@@ -138,6 +138,16 @@ public class Game {
         return landOwner;
     }
 
+    //定义一个方法用于进行核心流程
+    //思路:
+    //1.首先定义一个变量，用于记录当前玩家出牌成功的标记，初始值为false。
+    //2.进入出牌环节后，玩家输入牌型后进行两次判断:
+    //  第一次判断:判断是否与上一个玩家出牌类型相同
+    //  第二次判断:利用CardMagnitude判断大小
+    //
+    //4.如果牌型合法，则将玩家出的牌从手牌中删除，更新当前手牌。
+    //5.如果牌型不合法，则提示玩家重新输入出牌。
+    //6.循环进行，直到玩家出完所有手牌或选择不出牌。
     public void playCard(){
         if (landOwner == player01) {
             goCard(landOwner, poker );
@@ -199,8 +209,8 @@ public class Game {
     //出牌思路:
     //1.首先定义一个变量，用于记录当前玩家是否输入“出牌”的标记，初始值为false。
     //2.进入出牌环节后，玩家每输入一张牌，先判断该牌是否为“出牌”。
-    //      如果是，将标记置为true，退出输入循环。
-    //      如果不是，将该牌转化为map中对应的索引。
+    //    如果是，将标记置为true，退出输入循环。
+    //    如果不是，将该牌转化为map中对应的索引。
     //3.当玩家输入“出牌”后，开始进行牌型判断。
     //4.如果牌型合法，则将玩家出的牌从手牌中删除，更新当前手牌。
     //5.如果牌型不合法，则提示玩家重新输入出牌。
@@ -208,12 +218,11 @@ public class Game {
 
     public void goCard(User u, Poker p) {
 
-        boolean isValid = false;
-        int cardIndex = -1;
+        boolean isOut = false; // 标记
 
         while (!u.getList().isEmpty()) { // 当手牌不为空时，循环进行出牌
             System.out.println("当前手牌为：" + u.getList());
-            boolean isOut = false; // 重置标记
+
             List<Integer> outCards = new ArrayList<Integer>(); // 记录当前出的牌
             while (!isOut) { // 玩家一个一个输入牌，直到输入“出牌”
                 Scanner scanner = new Scanner(System.in);
@@ -223,8 +232,9 @@ public class Game {
                     isOut = true;
                     break;
                 }
-                //判断牌库中是否有该牌
+                //得到输入的牌的索引
                 Integer inputIndex = turnStringToInteger(input);
+                //判断牌库中是否有该牌
                 Integer index = p.getPokerNumber().get(inputIndex);
                 if (index != null) {
                     outCards.add(index);
