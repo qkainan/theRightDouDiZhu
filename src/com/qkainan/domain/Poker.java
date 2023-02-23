@@ -8,16 +8,16 @@ public class  Poker {
     private HashMap<Integer, String> pokerCard = new HashMap<>();
     //创建一个ArrayList集合，存储牌的索引
     private ArrayList<Integer> pokerNumber = new ArrayList<>();
-    //创建一个List集合，用于存储牌的标签
-    private List group = new ArrayList<CardMagnitude>();
+    //创建一个Map集合，用于存储牌的标签
+    private HashMap<Integer, CardMagnitude> pokerGroup = new HashMap<Integer, CardMagnitude>();
 
     public Poker() {
     }
 
-    public Poker(HashMap<Integer, String> pokerCard, ArrayList<Integer> pokerNumber, List group) {
+    public Poker(HashMap<Integer, String> pokerCard, ArrayList<Integer> pokerNumber, HashMap<Integer, CardMagnitude> pokerGroup) {
         this.pokerCard = pokerCard;
         this.pokerNumber = pokerNumber;
-        this.group = group;
+        this.pokerGroup = pokerGroup;
     }
 
 
@@ -32,73 +32,84 @@ public class  Poker {
         int index = 0;
         pokerCard.put(index, "大王");
         pokerNumber.add(index);
+        pokerGroup.put(index,CardMagnitude.cmDW);
         index++;
         pokerCard.put(index, "小王");
         pokerNumber.add(index);
+        pokerGroup.put(index, CardMagnitude.cmXW);
         index++;
-        //循环嵌套遍历两个数组，花色和顺序，组装52张牌，存储到集合中
+        //循环嵌套遍历三个数组，花色、顺序以及标签，组装52张牌，存储到集合中
         for (String number : numbers) {
             for (String color : colors) {
-                pokerCard.put(index, color + number);
-                pokerNumber.add(index);
-                index++;
+                for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cm2);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cmA);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cmK);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cmQ);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cmJ);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cm10);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cm9);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cm8);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cm7);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cm6);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cm5);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cm4);
+                    index++;
+                }for (int i = 0; i < 4; i++) {
+                    pokerCard.put(index, color + number);
+                    pokerNumber.add(index);
+                    pokerGroup.put(index , CardMagnitude.cm3);
+                    index++;
+                }
             }
         }
         return pokerCard;
-    }
-
-    //定义一个方法将卡牌的索引分组，给每种牌都打上标签
-    public CardMagnitude groupIndex() {
-        for (int i = 0; i < pokerNumber.size(); i++) {
-            //将所有卡牌的索引植入集合
-            if (pokerNumber.get(i) == 0) {
-                group.add(CardMagnitude.cmDW);
-
-            } else if (pokerNumber.get(i) == 1) {
-                group.add(CardMagnitude.cmXW);
-
-            } else if (pokerNumber.get(i) > 1 && pokerNumber.get(i) < 6) {
-                group.add(CardMagnitude.cm2);
-
-            } else if (pokerNumber.get(i) > 5 && pokerNumber.get(i) < 10) {
-                group.add(CardMagnitude.cmA);
-
-            } else if (pokerNumber.get(i) > 9 && pokerNumber.get(i) < 14) {
-                group.add(CardMagnitude.cmK);
-
-            } else if (pokerNumber.get(i) > 13 && pokerNumber.get(i) < 18) {
-                group.add(CardMagnitude.cmQ);
-
-            } else if (pokerNumber.get(i) > 17 && pokerNumber.get(i) < 23) {
-                group.add(CardMagnitude.cmJ);
-
-            } else if (pokerNumber.get(i) > 22 && pokerNumber.get(i) < 27) {
-                group.add(CardMagnitude.cm10);
-
-            } else if (pokerNumber.get(i) > 26 && pokerNumber.get(i) < 31) {
-                group.add(CardMagnitude.cm9);
-
-            } else if (pokerNumber.get(i) > 30 && pokerNumber.get(i) < 35) {
-                group.add(CardMagnitude.cm8);
-
-            } else if (pokerNumber.get(i) > 34 && pokerNumber.get(i) < 39) {
-                group.add(CardMagnitude.cm7);
-
-            } else if (pokerNumber.get(i) > 38 && pokerNumber.get(i) < 43) {
-                group.add(CardMagnitude.cm6);
-
-            } else if (pokerNumber.get(i) > 42 && pokerNumber.get(i) < 47) {
-                group.add(CardMagnitude.cm5);
-
-            } else if (pokerNumber.get(i) > 46 && pokerNumber.get(i) < 51) {
-                group.add(CardMagnitude.cm4);
-
-            } else if (pokerNumber.get(i) > 50 && pokerNumber.get(i) < 54) {
-                group.add(CardMagnitude.cm3);
-
-            }
-        }
-        return CardMagnitude.cm0;
     }
 
 
@@ -136,22 +147,22 @@ public class  Poker {
 
     /**
      * 获取
-     * @return group
+     * @return pokerGroup
      */
-    public List getGroup() {
-        return group;
+    public HashMap<Integer, CardMagnitude> getPokerGroup() {
+        return pokerGroup;
     }
 
     /**
      * 设置
-     * @param group
+     * @param pokerGroup
      */
-    public void setGroup(List group) {
-        this.group = group;
+    public void setPokerGroup(HashMap<Integer, CardMagnitude> pokerGroup) {
+        this.pokerGroup = pokerGroup;
     }
 
     public String toString() {
-        return "Poker{pokerCard = " + pokerCard + ", pokerNumber = " + pokerNumber + ", group = " + group + "}";
+        return "Poker{pokerCard = " + pokerCard + ", pokerNumber = " + pokerNumber + ", pokerGroup = " + pokerGroup + "}";
     }
 }
 

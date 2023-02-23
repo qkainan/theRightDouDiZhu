@@ -27,10 +27,7 @@ public class Game {
     int score02 = 0;
     int score03 = 0;
 
-    //用于存储牌的大小
-    List<Integer> magnitude = new ArrayList<>();
-
-
+    //初始化玩家
     public void initUser() {
         player01.setName("player01");
         player02.setName("player02");
@@ -45,6 +42,18 @@ public class Game {
         player01.setScore(score01);
         player02.setScore(score02);
         player03.setScore(score03);
+    }
+
+    //定义一个方法用于获取每张牌的大小,利用groupIndex方法
+    public Integer getMagnitude(Integer index){
+        //得到index在pokerNumber中的位置
+        int count = 0;
+        while (index != poker.getPokerNumber().get(count)){
+            count++;
+        }
+        //index对应的枚举类型
+        CardMagnitude index_cardMagnitude = poker.getGroup().get(count);
+        return index_cardMagnitude.ordinal();
     }
 
     //定义一个方法用于洗牌
@@ -140,30 +149,71 @@ public class Game {
 
     //定义一个方法用于进行核心流程
     //思路:
-    //1.首先定义一个变量，用于记录当前玩家出牌成功的标记，初始值为false。
-    //2.进入出牌环节后，玩家输入牌型后进行两次判断:
-    //  第一次判断:判断是否与上一个玩家出牌类型相同
-    //  第二次判断:利用CardMagnitude判断大小
+    //1.定义一个变量，用于记录当前玩家出牌成功的标记，初始值为false。
+    //2.进入出牌环节后，玩家输入牌型后进行三次判断:
+    //  第一次判断:判断地主，确定出牌顺序
+    //  第二次判断:判断是否与上一个玩家出牌类型相同
+    //  第三次判断:利用CardMagnitude判断大小
     //
-    //4.如果牌型合法，则将玩家出的牌从手牌中删除，更新当前手牌。
-    //5.如果牌型不合法，则提示玩家重新输入出牌。
-    //6.循环进行，直到玩家出完所有手牌或选择不出牌。
-    public void playCard(){
-        if (landOwner == player01) {
-            goCard(landOwner, poker );
-            goCard(player02, poker);
-            goCard(player03, poker);
-        } else if (landOwner == player02) {
-            goCard(landOwner, poker);
-            goCard(player03, poker);
-            goCard(player02, poker);
-        } else if (landOwner == player03) {
-            goCard(landOwner, poker);
-            goCard(player01, poker);
-            goCard(player02, poker);
-        }
+    //3.如果牌型合法，则将玩家出的牌从手牌中删除，更新当前手牌。
+    //4.如果牌型不合法，则提示玩家重新输入出牌。
+    //5.循环进行，直到玩家出完所有手牌或选择不出牌。
+    public void playCard(User u1, User u2, User u3) {
+        boolean isOut = false; // 标记
 
+        //判断地主
+        if (landOwner == player01) {
+            u1 = player01;
+            u2 = player02;
+            u3 = player03;
+        } else if (landOwner == player02) {
+            u1 = player01;
+            u1 = player02;
+            u3 = player03;
+        } else if (landOwner == player03) {
+            u2 = player01;
+            u3 = player02;
+            u1 = player03;
+        }
+        //轮流出牌
+        while (!u1.getList().isEmpty()) {
+            goCard(u1);
+            CardType cardTypeU1 = judgeType(goCard(u1));
+
+            goCard(u2);
+            CardType cardTypeU2 = judgeType(goCard(u2));
+
+            // 统计卡牌数字出现次数
+            Map<Integer, Integer> counts = new HashMap<>();
+            if (cardTypeU1 == cardTypeU2) {
+                for (int card : goCard(u2)) {
+                    // 获取卡牌数字
+                    int number = card % 100;
+                    // 统计卡牌数字出现次数
+                    counts.put(number, counts.getOrDefault(number, 0) + 1);
+                }
+                // 初始化变量
+                int maxCount = 0;
+                int maxIndex = -1;//出现次数最多的卡牌的索引
+                // 遍历 counts
+                for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
+                    int index = entry.getKey();
+                    int count = entry.getValue();
+                    // 如果当前卡牌出现次数大于之前出现次数最多的卡牌，更新 maxCount 和 maxIndex
+                    if (count > maxCount) {
+                        maxCount = count;
+                        maxIndex = index;
+                    }
+                }
+
+            }
+
+
+            goCard(u3);
+            CardType cardTypeU3 = judgeType(goCard(u3));
+        }
     }
+
 
     //定义一个方法用于叫牌
     public static int jiaoPai(int score) {
@@ -205,7 +255,7 @@ public class Game {
         System.out.println();
     }
 
-    //定义一个方法用于出牌
+    //定义一个方法用于玩家出牌
     //出牌思路:
     //1.首先定义一个变量，用于记录当前玩家是否输入“出牌”的标记，初始值为false。
     //2.进入出牌环节后，玩家每输入一张牌，先判断该牌是否为“出牌”。
@@ -214,16 +264,14 @@ public class Game {
     //3.当玩家输入“出牌”后，开始进行牌型判断。
     //4.如果牌型合法，则将玩家出的牌从手牌中删除，更新当前手牌。
     //5.如果牌型不合法，则提示玩家重新输入出牌。
-    //6.循环进行，直到玩家出完所有手牌或选择不出牌。
-
-    public void goCard(User u, Poker p) {
+    //6.返回出牌暂存区，以便于下一个出牌玩家判断牌型
+    public List<Integer> goCard(User u) {
 
         boolean isOut = false; // 标记
+        List<Integer> outCards = new ArrayList<Integer>(); // 记录当前出的牌，出牌暂存区
 
-        while (!u.getList().isEmpty()) { // 当手牌不为空时，循环进行出牌
             System.out.println("当前手牌为：" + u.getList());
 
-            List<Integer> outCards = new ArrayList<Integer>(); // 记录当前出的牌
             while (!isOut) { // 玩家一个一个输入牌，直到输入“出牌”
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("请输入一张牌（输入“出牌”结束）：");
@@ -234,9 +282,10 @@ public class Game {
                 }
                 //得到输入的牌的索引
                 Integer inputIndex = turnStringToInteger(input);
-                //判断牌库中是否有该牌
-                Integer index = p.getPokerNumber().get(inputIndex);
+                //判断手牌中是否有该牌
+                Integer index = u.getList().get(inputIndex);
                 if (index != null) {
+                    //将索引置入出牌暂存区
                     outCards.add(index);
                 } else {
                     System.out.println("无效牌，请重新输入。");
@@ -254,9 +303,11 @@ public class Game {
             } else { // 玩家选择不出牌
                 System.out.println("玩家选择不出牌。");
             }
-        }
-        System.out.println("游戏结束。");
+
+        System.out.println("该玩家出牌结束。");
+        return outCards;
     }
+
 
     //定义一个方法用于将输入的字符串转换为牌库中的索引
     public Integer turnStringToInteger(String input){
