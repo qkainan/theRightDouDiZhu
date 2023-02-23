@@ -4,15 +4,15 @@ import com.qkainan.domain.Poker;
 public class test {
     public static void main(String[] args) {
 
-        Poker p = new Poker();
-        Game g = new Game();
+        Poker poker = new Poker();
+        Game game= new Game();
 
-        p.creatCardBase();
-        g.initUser();
-        g.dealPorkCard();
-        g.shuffleCard();
-        g.lookCard();
-        g.qiangDiZhu();
+        poker.creatCardBase();
+        game.initUser();
+        game.dealPorkCard(poker);
+        game.shuffleCard(poker);
+        game.lookCard(poker);
+        game.qiangDiZhu(poker);
 
     }
 }

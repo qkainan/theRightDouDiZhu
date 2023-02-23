@@ -5,15 +5,12 @@ import java.util.List;
 
 public class Game {
     //初始化
-    Poker poker = new Poker();
+//    Poker poker = new Poker();
 
     User player01 = new User();
     User player02 = new User();
     User player03 = new User();
     User landOwner = new User();
-
-    //弃牌区
-    List<Integer> discardArea = new ArrayList<>();
 
     //创建四个集合用于存储三个玩家的手牌以及底牌
     List<Integer> player1 = new ArrayList<>();
@@ -27,6 +24,7 @@ public class Game {
     int score02 = 0;
     int score03 = 0;
 
+    //游戏流程
     //初始化玩家
     public void initUser() {
         player01.setName("player01");
@@ -44,26 +42,8 @@ public class Game {
         player03.setScore(score03);
     }
 
-    //定义一个方法用于获取每张牌的大小,利用groupIndex方法
-    public Integer getMagnitude(Integer index){
-        //得到index在pokerNumber中的位置
-        int count = 0;
-        while (index != poker.getPokerNumber().get(count)){
-            count++;
-        }
-        //index对应的枚举类型
-        CardMagnitude index_cardMagnitude = poker.getGroup().get(count);
-        return index_cardMagnitude.ordinal();
-    }
-
-    //定义一个方法用于洗牌
-    //使用Collections中的方法shuffle(List)方法,对poker的索引进行洗牌
-    public void shuffleCard() {
-        Collections.shuffle(poker.getPokerNumber());
-    }
-
     //发牌,一人 17 张，留 3 张做底牌，在确定地主之前玩家不能看底牌。
-    public void dealPorkCard() {
+    public void dealPorkCard(Poker poker) {
         //遍历索引ArrayList集合，获取每一张牌的索引
         for (int i = 0; i < poker.getPokerNumber().size(); i++) {
             Integer in = poker.getPokerNumber().get(i);
@@ -88,7 +68,7 @@ public class Game {
         Collections.sort(player03.getList());
     }
 
-    public void lookCard() {
+    public void lookCard(Poker poker) {
         //看牌
         System.out.print("玩家1的牌为：");
         seeCard(poker.getPokerCard(), player01.getList());
@@ -102,7 +82,7 @@ public class Game {
 
     //叫牌按出牌的顺序轮流进行，每人只能叫一次。叫牌时可以叫 “1 分 ” ， “2 分 ” ， “3 分 ” ， “ 不叫 ” 。
     //抢地主
-    public User qiangDiZhu() {
+    public void qiangDiZhu(Poker poker) {
         System.out.print("玩家1叫牌：");
         score01 = jiaoPai(score01);
 
@@ -144,22 +124,10 @@ public class Game {
 
         System.out.print("地主的牌为：");
         seeCard(poker.getPokerCard(), landOwner.getList());
-        return landOwner;
     }
 
     //定义一个方法用于进行核心流程
-    //思路:
-    //1.定义一个变量，用于记录当前玩家出牌成功的标记，初始值为false。
-    //2.进入出牌环节后，玩家输入牌型后进行三次判断:
-    //  第一次判断:判断地主，确定出牌顺序
-    //  第二次判断:判断是否与上一个玩家出牌类型相同
-    //  第三次判断:利用CardMagnitude判断大小
-    //
-    //3.如果牌型合法，则将玩家出的牌从手牌中删除，更新当前手牌。
-    //4.如果牌型不合法，则提示玩家重新输入出牌。
-    //5.循环进行，直到玩家出完所有手牌或选择不出牌。
-    public void playCard(User u1, User u2, User u3) {
-        boolean isOut = false; // 标记
+    public void playCard(User u1, User u2, User u3 , Poker poker) {
 
         //判断地主
         if (landOwner == player01) {
@@ -167,53 +135,52 @@ public class Game {
             u2 = player02;
             u3 = player03;
         } else if (landOwner == player02) {
-            u1 = player01;
+            u3 = player01;
             u1 = player02;
-            u3 = player03;
+            u2 = player03;
         } else if (landOwner == player03) {
             u2 = player01;
             u3 = player02;
             u1 = player03;
         }
         //轮流出牌
-        while (!u1.getList().isEmpty()) {
-            goCard(u1);
-            CardType cardTypeU1 = judgeType(goCard(u1));
-
-            goCard(u2);
-            CardType cardTypeU2 = judgeType(goCard(u2));
-
-            // 统计卡牌数字出现次数
-            Map<Integer, Integer> counts = new HashMap<>();
-            if (cardTypeU1 == cardTypeU2) {
-                for (int card : goCard(u2)) {
-                    // 获取卡牌数字
-                    int number = card % 100;
-                    // 统计卡牌数字出现次数
-                    counts.put(number, counts.getOrDefault(number, 0) + 1);
-                }
-                // 初始化变量
-                int maxCount = 0;
-                int maxIndex = -1;//出现次数最多的卡牌的索引
-                // 遍历 counts
-                for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
-                    int index = entry.getKey();
-                    int count = entry.getValue();
-                    // 如果当前卡牌出现次数大于之前出现次数最多的卡牌，更新 maxCount 和 maxIndex
-                    if (count > maxCount) {
-                        maxCount = count;
-                        maxIndex = index;
-                    }
-                }
-
+        while (!u1.getList().isEmpty() || !u2.getList().isEmpty() || !u3.getList().isEmpty()) {
+            goCard(u1 , poker);
+            if (goCard(u1 ,poker).isEmpty()){
+                goCard(u1 ,poker) ;
             }
 
+            int check1 = checkCards(goCard(u2 ,poker) , goCard(u1 ,poker) , poker);
+            if (check1 == 1){
+                goCard(u2 ,poker);
+            }
 
-            goCard(u3);
-            CardType cardTypeU3 = judgeType(goCard(u3));
+            int check2 = checkCards(goCard(u3 ,poker) , goCard(u2 ,poker) , poker);
+            if (check2 == 1){
+                goCard(u3 ,poker);
+            }
+
         }
     }
 
+    //进行游戏流程的工具
+    //定义一个方法用于获取每张牌的大小,利用pokerGroup方法
+    public Integer getMagnitude(Integer index , Poker poker){
+        //得到index在pokerNumber中的位置
+        int count = 0;
+        while (index != poker.getPokerNumber().get(count)){
+            count++;
+        }
+        //index对应的枚举类型
+        CardMagnitude index_cardMagnitude = poker.getPokerGroup().get(count);
+        return index_cardMagnitude.ordinal();
+    }
+
+    //定义一个方法用于洗牌
+    //使用Collections中的方法shuffle(List)方法,对poker的索引进行洗牌
+    public void shuffleCard(Poker poker) {
+        Collections.shuffle(poker.getPokerNumber());
+    }
 
     //定义一个方法用于叫牌
     public static int jiaoPai(int score) {
@@ -265,23 +232,28 @@ public class Game {
     //4.如果牌型合法，则将玩家出的牌从手牌中删除，更新当前手牌。
     //5.如果牌型不合法，则提示玩家重新输入出牌。
     //6.返回出牌暂存区，以便于下一个出牌玩家判断牌型
-    public List<Integer> goCard(User u) {
+    public List<Integer> goCard(User u , Poker poker) {
 
         boolean isOut = false; // 标记
         List<Integer> outCards = new ArrayList<Integer>(); // 记录当前出的牌，出牌暂存区
 
-            System.out.println("当前手牌为：" + u.getList());
+        System.out.println("当前手牌为：" + u.getList());
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入一张牌（输入“出牌”、“不出牌”结束）：");
+        String input = scanner.nextLine();
 
+        //不出牌直接过
+        if (input.equals("不出牌")){
+            return null;
+        } else {
             while (!isOut) { // 玩家一个一个输入牌，直到输入“出牌”
-                Scanner scanner = new Scanner(System.in);
-                System.out.println("请输入一张牌（输入“出牌”结束）：");
-                String input = scanner.nextLine();
+
                 if (input.equals("出牌")) {
                     isOut = true;
                     break;
                 }
                 //得到输入的牌的索引
-                Integer inputIndex = turnStringToInteger(input);
+                Integer inputIndex = turnStringToInteger(input , poker);
                 //判断手牌中是否有该牌
                 Integer index = u.getList().get(inputIndex);
                 if (index != null) {
@@ -304,13 +276,67 @@ public class Game {
                 System.out.println("玩家选择不出牌。");
             }
 
-        System.out.println("该玩家出牌结束。");
-        return outCards;
+            System.out.println("该玩家出牌结束。");
+            return outCards;
+        }
+    }
+
+    //定义一个方法用于找到玩家出牌时，出现次数最多的牌中最大的牌的索引
+    public Integer findMaxCard(List<Integer> list) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (Integer it : list) {
+            Integer i = 1; //定义一个计数器，用来记录重复数据的个数
+            if (map.get(it) != null) {
+                i = map.get(it) + 1;
+            }
+            map.put(it, i);
+        }
+        //System.out.println("重复数据的个数："+map.toString());
+        int maxCount = 0;
+        Integer maxIndex = null;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > maxCount) {
+                maxCount = entry.getValue();//出现的次数
+                maxIndex = entry.getKey();//要求的索引
+            }
+        }
+        return maxIndex;
+    }
+
+    //检查牌的是否能出
+    public int checkCards(List<Integer> current, List<Integer> previous , Poker poker) {
+        CardType cType = judgeType(previous);
+
+        //王炸弹
+        if (cType == CardType.cthj) {
+            if (previous.size() == 2)
+                return 0;
+            if (current.size() == 2)
+                return 1;
+        }
+
+        //如果张数不同直接过滤
+        if (current != previous)
+            return 0;
+        //比较此时的出牌类型
+        if (judgeType(current) != judgeType(previous)) {
+            return 0;
+        }
+        //比较出的牌是否要大
+
+        if (getMagnitude(findMaxCard(current) , poker) <= getMagnitude(findMaxCard(previous) , poker)) {
+            return 0;
+        } else {
+            return 1;
+        }
+
     }
 
 
+
+    //牌型判定
     //定义一个方法用于将输入的字符串转换为牌库中的索引
-    public Integer turnStringToInteger(String input){
+    public Integer turnStringToInteger(String input , Poker poker){
         for (int i = 0; i < poker.getPokerCard().size(); i++) {
             if (poker.getPokerCard().get(i).equals(input)) {
                 return i;
@@ -318,9 +344,6 @@ public class Game {
         }
         return -1;
     }
-
-
-
 
     //定义一个方法,利用Judge判断牌型是否合法
     public boolean judgeRight(List<Integer> list){
@@ -565,6 +588,7 @@ public class Game {
         }
         return false;
     }
+
 }
 
 
