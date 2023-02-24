@@ -30,85 +30,33 @@ public class  Poker {
 
         //先把大王和小王存储到集合中
         int index = 0;
-        pokerCard.put(index, "大王");
+        int cardMagnitude_index = 0;
+        pokerCard.put(index, "Joker");
         pokerNumber.add(index);
-        pokerGroup.put(index,CardMagnitude.cmDW);
+        pokerGroup.put(cardMagnitude_index,CardMagnitude.cmDW);
         index++;
-        pokerCard.put(index, "小王");
+        cardMagnitude_index++;
+        pokerCard.put(index, "joker");
         pokerNumber.add(index);
-        pokerGroup.put(index, CardMagnitude.cmXW);
+        pokerGroup.put(cardMagnitude_index, CardMagnitude.cmXW);
         index++;
+        cardMagnitude_index++;
         //循环嵌套遍历三个数组，花色、顺序以及标签，组装52张牌，存储到集合中
         for (String number : numbers) {
             for (String color : colors) {
-                for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cm2);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cmA);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cmK);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cmQ);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cmJ);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cm10);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cm9);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cm8);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cm7);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cm6);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cm5);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cm4);
-                    index++;
-                }for (int i = 0; i < 4; i++) {
-                    pokerCard.put(index, color + number);
-                    pokerNumber.add(index);
-                    pokerGroup.put(index , CardMagnitude.cm3);
-                    index++;
-                }
+                pokerCard.put(index, color + number);
+                pokerNumber.add(index);
+                index++;
             }
         }
+
+        for (CardMagnitude magnitude : Arrays.copyOfRange(CardMagnitude.values(), 2, CardMagnitude.values().length)) {
+            cardMagnitude_index++;
+            for (int i = 0; i < 4; i++) {
+                pokerGroup.put(cardMagnitude_index, magnitude);
+            }
+        }
+
         return pokerCard;
     }
 

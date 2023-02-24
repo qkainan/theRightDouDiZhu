@@ -13,6 +13,6 @@ public class test {
         game.dealPorkCard(poker);
         game.lookCard(poker);
         game.qiangDiZhu(poker);
-
+        game.playCard(game.getUserList() , poker);
     }
 }
