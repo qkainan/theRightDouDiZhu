@@ -9,8 +9,8 @@ public class test {
 
         poker.creatCardBase();
         game.initUser();
-        game.dealPorkCard(poker);
         game.shuffleCard(poker);
+        game.dealPorkCard(poker);
         game.lookCard(poker);
         game.qiangDiZhu(poker);
 

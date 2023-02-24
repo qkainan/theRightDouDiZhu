@@ -2,8 +2,8 @@ package com.qkainan.domain;
 public enum CardMagnitude {
     cmDW,//王
     cmXW,//王
-    cmA,//A
     cm2,//2
+    cmA,//A
     cmK,//K
     cmQ,//Q
     cmJ,//J

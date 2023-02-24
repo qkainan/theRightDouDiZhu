@@ -307,7 +307,7 @@ public class Game {
     public int checkCards(List<Integer> current, List<Integer> previous , Poker poker) {
         CardType cType = judgeType(previous);
 
-        //王炸弹
+        //王炸
         if (cType == CardType.cthj) {
             if (previous.size() == 2)
                 return 0;
