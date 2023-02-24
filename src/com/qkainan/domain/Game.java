@@ -309,12 +309,13 @@ public class Game {
 
     //定义一个方法用于将输入的字符串转换为牌库中的索引
     public Integer turnStringToInteger(String input , Poker poker){
+        Integer it = -1;
         for (int i = 0; i < poker.getPokerCard().size(); i++) {
             if (poker.getPokerCard().get(i).equals(input)) {
-                return i;
+                it = i;
             }
         }
-        return -1;
+        return it;
     }
 
     //定义一个方法用于找到玩家出牌时，出现次数最多的牌中最大的牌的索引
@@ -372,11 +373,13 @@ public class Game {
 
     //判断牌型
     public CardType judgeType(List<Integer> cards) {
+        //最后返回的类型
+        CardType cardType = CardType.ct0;
         // 获取卡牌数量
         int size = cards.size();
         if (size == 0 || size > 8) {
             // 如果卡牌数量为0或大于8张，则返回无效牌型
-            return CardType.ct0;
+            cardType = CardType.ct0;
         }
 
         // 统计卡牌数字出现次数
@@ -394,65 +397,88 @@ public class Game {
 
         switch (size) {
             case 1:
-                return CardType.ct1;// 单张
+                cardType = CardType.ct1;
+                break;// 单张
             case 2:
                 if (distinctCount == 1 && maxCount == 2 && cards.get(0) == 52 && cards.get(1) == 53) {
-                    return CardType.cthj; // 王炸
+                    cardType = CardType.cthj;
+                    break; // 王炸
                 } else if (distinctCount == 1 && maxCount == 2) {
-                    return CardType.ct2;// 对子
+                    cardType = CardType.ct2;
+                    break;// 对子
+                }else {
+                    cardType = CardType.ct0;
                 }
-                return CardType.ct0;
-            case 3:
+                case 3:
                 if (distinctCount == 1 && maxCount == 3) {
-                    return CardType.ct3;// 三不带
+                    cardType = CardType.ct3;
+                    break;// 三不带
+                }else {
+                    cardType = CardType.ct0;
                 }
-                return CardType.ct0;
             case 4:
                 if (distinctCount == 2) {
                     if (maxCount == 3) {
-                        return CardType.ct31;// 三带一
+                        cardType = CardType.ct31;
+                        break;// 三带一
                     } else if (maxCount == 4) {
-                        return CardType.ct4; // 炸弹
+                        break; // 炸弹
                     }
+                }else {
+                    cardType = CardType.ct0;
                 }
-                return CardType.ct0;
             case 5:
                 if (distinctCount == 2 && maxCount == 3) {
-                    return CardType.ct32;// 三带二
+                    cardType = CardType.ct32;
+                    break;// 三带二
                 } else if (isStraight(cards)) {
-                    return CardType.ct123;// 顺子
+                    cardType = CardType.ct123;
+                    break;// 顺子
+                }else {
+                    cardType = CardType.ct0;
                 }
-                return CardType.ct0;
             case 6:
                 if (isStraight(cards) && isPairStraight(cards)) {
-                    return CardType.ct1122;// 连对
+                    cardType = CardType.ct1122;
+                    break;// 连对
                 } else if (distinctCount == 1 && maxCount == 4) {
-                    return CardType.ct4;// 四带二（单）
+                    cardType = CardType.ct4;
+                    break;// 四带二（单）
                 } else if (distinctCount == 2 && maxCount == 3) {
-                    return CardType.ct31;// 四带二（单）
+                    cardType = CardType.ct31;
+                    break;// 四带二（单）
                 } else if (distinctCount == 3 && maxCount == 3) {
-                    return CardType.ct411; // 飞机不带
+                    cardType = CardType.ct411;
+                    break; // 飞机不带
                 } else if (distinctCount == 2 && maxCount == 4) {
-                    return CardType.ct422;// 四带二（对）
+                    cardType = CardType.ct422;
+                    break;// 四带二（对）
+                }else {
+                    cardType = CardType.ct0;
                 }
-                return CardType.ct0;
             case 7:
                 if (isStraight(cards)) {
-                    return CardType.ct123;// 顺子
+                    cardType = CardType.ct123;
+                    break;// 顺子
+                }else {
+                    cardType = CardType.ct0;
                 }
-                return CardType.ct0;
             case 8:
                 if (isStraight(cards) && isPairStraight(cards)) {
-                    return CardType.ct1122;//连队
+                    cardType = CardType.ct1122;
+                    break;//连队
                 } else if (isPlane(cards)) {
-                    return CardType.ct111222;//飞机
+                    cardType = CardType.ct111222;
+                    break;//飞机
                 } else if (isPlaneWithSingle(cards)) {
-                    return CardType.ct11122234;//飞机带单牌
+                    cardType = CardType.ct11122234;
+                    break;//飞机带单牌
                 } else if (isPlaneWithPair(cards)) {
-                    return CardType.ct1112223344;//飞机带对子
+                    cardType = CardType.ct1112223344;
+                    break;//飞机带对子
                 }
         }
-        return CardType.ct0;
+        return cardType;
     }
     //判断卡牌是否为飞机
     //cards 待判断的卡牌列表
