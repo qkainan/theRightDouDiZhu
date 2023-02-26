@@ -393,14 +393,14 @@ public class Game {
 
         Set<Integer> numbers = counts.keySet();// 获取卡牌数字的集合
         int distinctCount = numbers.size();// 获取卡牌数字的不同个数
-        int maxCount = Collections.max(counts.values());// 获取卡牌数字出现次数的最大值
+        int maxCount = Collections.max(counts.values());//统计结果中出现最多的卡牌出现了多少次
 
         switch (size) {
             case 1:
                 cardType = CardType.ct1;
                 break;// 单张
             case 2:
-                if (distinctCount == 1 && maxCount == 2 && cards.get(0) == 52 && cards.get(1) == 53) {
+                if (distinctCount == 1 && maxCount == 1 && cards.get(0) == 0 && cards.get(1) == 1) {
                     cardType = CardType.cthj;
                     break; // 王炸
                 } else if (distinctCount == 1 && maxCount == 2) {
