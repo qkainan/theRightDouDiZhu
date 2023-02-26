@@ -27,6 +27,9 @@ public class Game {
     int score02 = 0;
     int score03 = 0;
 
+    //出牌暂存区
+    List<Integer> playedCards = new ArrayList<>();
+
     //游戏流程
     //初始化玩家
     public void initUser() {
@@ -264,9 +267,6 @@ public class Game {
         //标记
         boolean isOut = false;
 
-        //出牌暂存区
-        List<Integer> playedCards = new ArrayList<>();
-
         //输入
         System.out.println("请输入一张牌（输入“出牌”、“不出牌”结束）：");
         Scanner in = new Scanner(System.in);
@@ -278,6 +278,12 @@ public class Game {
             while (!isOut) {
                 if (input.equals("出牌")) {
                     if (judgeRight(playedCards)){
+                        for (Integer integer : playedCards){
+                            System.out.println(integer);
+                            u.getList().remove(integer);
+                        }
+                        playedCards.clear();
+
                         isOut = true;
                         System.out.println("出牌成功。");
                     }else {
@@ -289,6 +295,7 @@ public class Game {
                     int playedCards_index = turnStringToInteger(input, poker);
                     playedCards.add(playedCards_index);
                     playedCards = goCard(u, poker); // 递归调用自身，重新出牌
+
                 }
             }
         }
@@ -374,8 +381,10 @@ public class Game {
 
     //判断牌型
     public CardType judgeType(List<Integer> cards) {
+
         //最后返回的类型
         CardType cardType = CardType.ct0;
+
         // 获取卡牌数量
         int size = cards.size();
         if (size == 0 || size > 8) {
@@ -395,6 +404,7 @@ public class Game {
         Set<Integer> numbers = counts.keySet();// 获取卡牌数字的集合
         int distinctCount = numbers.size();// 获取卡牌数字的不同个数
         int maxCount = Collections.max(counts.values());//统计结果中出现最多的卡牌出现了多少次
+
 
         switch (size) {
             case 1:
@@ -481,6 +491,7 @@ public class Game {
         }
         return cardType;
     }
+
     //判断卡牌是否为飞机
     //cards 待判断的卡牌列表
     //return 是否为飞机
