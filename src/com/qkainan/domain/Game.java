@@ -310,13 +310,14 @@ public class Game {
     //定义一个方法用于将输入的字符串转换为牌库中的索引
     public Integer turnStringToInteger(String input , Poker poker){
         Integer it = -1;
-        for (int i = 0; i < poker.getPokerCard().size(); i++) {
+        for (Integer i = 0; i < poker.getPokerCard().size(); i++) {
             if (poker.getPokerCard().get(i).equals(input)) {
-                it = i;
+                it =poker.getPokerGroup().get(i).ordinal();
             }
         }
         return it;
     }
+
 
     //定义一个方法用于找到玩家出牌时，出现次数最多的牌中最大的牌的索引
     public Integer findMaxCard(List<Integer> list) {

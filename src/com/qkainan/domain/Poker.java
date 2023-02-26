@@ -51,9 +51,9 @@ public class  Poker {
         }
 
         for (CardMagnitude magnitude : Arrays.copyOfRange(CardMagnitude.values(), 2, CardMagnitude.values().length)) {
-            cardMagnitude_index++;
             for (int i = 0; i < 4; i++) {
                 pokerGroup.put(cardMagnitude_index, magnitude);
+                cardMagnitude_index++;
             }
         }
 
