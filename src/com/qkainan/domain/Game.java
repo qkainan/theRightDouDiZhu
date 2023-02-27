@@ -286,7 +286,7 @@ public class Game {
         } else {
             while (!isOut) {
                 if (input.equals("出牌")) {
-                    if (judgeRight(playedCards)){
+                    if (judgeRight(playedCards , poker)){
 
                         System.out.println(playedCards);
                         for (Integer integer : playedCards){
@@ -317,8 +317,8 @@ public class Game {
 
 
     //定义一个方法,利用Judge判断牌型是否合法
-    public boolean judgeRight(List<Integer> list){
-        CardType cardType = judgeType(list);
+    public boolean judgeRight(List<Integer> list , Poker poker){
+        CardType cardType = judgeType(list , poker);
         if (cardType == CardType.ct0){
             return false;
         }else {
@@ -368,7 +368,7 @@ public class Game {
 
     //检查牌的是否能出
     public int checkCards(List<Integer> current, List<Integer> previous , Poker poker) {
-        CardType cType = judgeType(previous);
+        CardType cType = judgeType(previous , poker);
 
         //王炸
         if (cType == CardType.cthj) {
@@ -382,7 +382,7 @@ public class Game {
         if (current != previous)
             return 0;
         //比较此时的出牌类型
-        if (judgeType(current) != judgeType(previous)) {
+        if (judgeType(current , poker) != judgeType(previous , poker)) {
             return -1;
         }
         //比较出的牌是否要大
@@ -398,7 +398,7 @@ public class Game {
 
 
     //判断牌型
-    public CardType judgeType(List<Integer> cards) {
+    public CardType judgeType(List<Integer> cards , Poker poker) {
 
         //最后返回的类型
         CardType cardType = CardType.ct0;
@@ -412,12 +412,17 @@ public class Game {
 
         // 统计卡牌数字出现次数
         Map<Integer, Integer> counts = new HashMap<>();
-        for (int card : cards) {
-            // 获取卡牌数字
-            int number = card % 100;
-            // 统计卡牌数字出现次数
-            counts.put(number, counts.getOrDefault(number, 0) + 1);
+        for (int i = 0; i < poker.getPokerCard().size(); i++) {
+            for (Integer integer : cards) {
+                if (integer == i) {
+                    // 获取卡牌标签(获取卡牌数字)
+                    int number = poker.getPokerGroup().get(i).ordinal();
+                    // 统计卡牌数字出现次数
+                    counts.put(number, counts.getOrDefault(number, 0) + 1);
+                }
+            }
         }
+
 
         Set<Integer> numbers = counts.keySet();// 获取卡牌数字的集合
         int distinctCount = numbers.size();// 获取卡牌数字的不同个数
