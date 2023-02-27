@@ -72,6 +72,13 @@ public class Game {
         Collections.sort(player01.getList());
         Collections.sort(player02.getList());
         Collections.sort(player03.getList());
+
+        System.out.println(player01.getList());
+        System.out.println(player02.getList());
+        System.out.println(player03.getList());
+        System.out.println(diPai);
+        System.out.println(poker.getPokerCard());
+
     }
 
     public void lookCard(Poker poker) {
@@ -167,7 +174,9 @@ public class Game {
             int currentPlayerIndex = 0;
             while (userList.size() > 1) {
                 User currentPlayer = userList.get(currentPlayerIndex);
+                isOut = false;
                 List<Integer> playedCards = goCard(currentPlayer, poker);
+                seeCard(poker.getPokerCard() ,currentPlayer.getList() );
                 if (playedCards.isEmpty()) {
                     currentPlayerIndex = (currentPlayerIndex + 1) % userList.size();
                     continue;
@@ -260,12 +269,12 @@ public class Game {
     //4.如果牌型合法，则将玩家出的牌从手牌中删除，更新当前手牌。
     //5.如果牌型不合法，则提示玩家重新输入出牌。
     //6.返回出牌暂存区，以便于下一个出牌玩家判断牌型
+
+    //标记
+    boolean isOut = false;
     public List<Integer> goCard(User u, Poker poker) {
         System.out.println("当前手牌为：");
         seeCard(poker.getPokerCard(), u.getList());
-
-        //标记
-        boolean isOut = false;
 
         //输入
         System.out.println("请输入一张牌（输入“出牌”、“不出牌”结束）：");
@@ -278,17 +287,20 @@ public class Game {
             while (!isOut) {
                 if (input.equals("出牌")) {
                     if (judgeRight(playedCards)){
+
+                        System.out.println(playedCards);
                         for (Integer integer : playedCards){
                             System.out.println(integer);
-                            u.getList().remove(integer);
+                            boolean remove = u.getList().remove(integer);
+                            System.out.println(remove);
                         }
                         playedCards.clear();
-
                         isOut = true;
                         System.out.println("出牌成功。");
                     }else {
                         System.out.println("出牌不合法，请重新出牌。");
                         playedCards.clear();
+                        isOut = true;
                         playedCards = goCard(u, poker); // 递归调用自身，重新出牌
                     }
                 } else {
@@ -319,7 +331,13 @@ public class Game {
         Integer it = -1;
         for (Integer i = 0; i < poker.getPokerCard().size(); i++) {
             if (poker.getPokerCard().get(i).equals(input)) {
-                it =poker.getPokerGroup().get(i).ordinal();
+                System.out.println(poker.getPokerCard().get(i));
+                System.out.println(poker.getPokerNumber().get(i));
+                System.out.println(poker.getPokerNumber());
+//                it =.get(i);
+                it=i;
+                System.out.println(it);
+                break;
             }
         }
         return it;

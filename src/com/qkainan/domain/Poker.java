@@ -31,16 +31,19 @@ public class  Poker {
         //先把大王和小王存储到集合中
         int index = 0;
         int cardMagnitude_index = 0;
+
         pokerCard.put(index, "Joker");
         pokerNumber.add(index);
         pokerGroup.put(cardMagnitude_index,CardMagnitude.cmDW);
         index++;
         cardMagnitude_index++;
+
         pokerCard.put(index, "joker");
         pokerNumber.add(index);
         pokerGroup.put(cardMagnitude_index, CardMagnitude.cmXW);
         index++;
         cardMagnitude_index++;
+
         //循环嵌套遍历三个数组，花色、顺序以及标签，组装52张牌，存储到集合中
         for (String number : numbers) {
             for (String color : colors) {
